@@ -1,0 +1,12 @@
+{
+  "html.validate.styles": false,
+  "eslint.useFlatConfig": true,
+  "rewrap.wrappingColumn": 80,
+  "rewrap.autoWrap.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript"],
+  "javascript.preferences.importModuleSpecifierEnding": "js",
+  "typescript.preferences.importModuleSpecifierEnding": "js"
+}
