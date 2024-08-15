@@ -16,6 +16,10 @@ export default {
         defaultValue: defaultButtonSize,
       },
     );
+    const [text] = useFixtureInput(
+      controlLabel({ type: "demo", text: "Text" }),
+      "Button text",
+    );
     const [hover] = useFixtureInput(
       controlLabel({ type: "demo", text: "Hover" }),
       false,
@@ -28,7 +32,10 @@ export default {
       controlLabel({ type: "demo", text: "Active" }),
       false,
     );
-    const [disabled] = useFixtureInput("Disabled", false);
+    const [disabled] = useFixtureInput(
+      controlLabel({ type: "demo", text: "Disabled" }),
+      false,
+    );
     const [leadingIcon] = useFixtureInput(
       controlLabel({ type: "demo", text: "Leading icon" }),
       false,
@@ -37,7 +44,7 @@ export default {
       controlLabel({ type: "demo", text: "Trailing icon" }),
       false,
     );
-    const TextWrap = leadingIcon || trailingIcon ? "span" : Fragment;
+    const TextWrap = text && (leadingIcon || trailingIcon) ? "span" : Fragment;
     const [wrap] = useFixtureInput(
       controlLabel({ type: "demo", text: "Wrap text" }),
       false,
@@ -55,9 +62,15 @@ export default {
           .join("")}>
         {leadingIcon ? <LifeBuoy size="1lh" /> : null}
         <TextWrap>
-          Button
-          {wrap ? <br /> : " "}
-          text
+          {text}
+          {wrap ? (
+            <>
+              <br />
+              line two
+            </>
+          ) : (
+            " "
+          )}
         </TextWrap>
         {trailingIcon ? <LifeBuoy size="1lh" /> : null}
       </Button>

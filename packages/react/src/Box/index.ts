@@ -188,6 +188,7 @@ export const Box = createComponent({
       ({
         "--box-shadow": value,
       }) as CSSProperties,
+    boxSizing: true,
     clip: true,
     color: (value: CSSProperties["color"]) => {
       if (value === "contrast") {
