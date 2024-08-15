@@ -213,7 +213,9 @@ export const Box = createComponent({
     flexWrap: true,
     float: true,
     fontFamily: true,
-    fontSize: true,
+    fontSize: (value: CSSProperties["fontSize"]) => ({
+      fontSize: typeof value === "number" ? `${value / 16}rem` : value,
+    }),
     fontWeight: true,
     gap: true,
     gridColumn: true,
