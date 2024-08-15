@@ -1,3 +1,5 @@
+import { LifeBuoy } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
 import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 
 import Box from "@/Box/index.js";
@@ -27,6 +29,15 @@ export default {
       false,
     );
     const [disabled] = useFixtureInput("Disabled", false);
+    const [leadingIcon] = useFixtureInput(
+      controlLabel({ type: "demo", text: "Leading icon" }),
+      false,
+    );
+    const [trailingIcon] = useFixtureInput(
+      controlLabel({ type: "demo", text: "Trailing icon" }),
+      false,
+    );
+    const TextWrap = leadingIcon || trailingIcon ? "span" : Fragment;
     const [wrap] = useFixtureInput(
       controlLabel({ type: "demo", text: "Wrap text" }),
       false,
@@ -42,15 +53,13 @@ export default {
         ]
           .filter(x => x)
           .join("")}>
-        {wrap ? (
-          <>
-            Button
-            <br />
-            text
-          </>
-        ) : (
-          "Button text"
-        )}
+        {leadingIcon ? <LifeBuoy size="1lh" /> : null}
+        <TextWrap>
+          Button
+          {wrap ? <br /> : " "}
+          text
+        </TextWrap>
+        {trailingIcon ? <LifeBuoy size="1lh" /> : null}
       </Button>
     );
   },

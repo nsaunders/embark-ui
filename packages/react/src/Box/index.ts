@@ -8,6 +8,8 @@ import type {} from "csstype";
 import type { CSSProperties } from "react";
 
 const { StyleSheet, hooks } = createHooks([
+  "&:has(svg:first-child)",
+  "&:has(svg:last-child)",
   "@media (hover:hover)",
   "@media (prefers-color-scheme: dark)",
   '[data-theme="auto"] &',
@@ -54,7 +56,10 @@ function createStartEndShorthand<P extends keyof CSSProperties>(
 ) {
   return (value: CSSProperties[P]): CSSProperties => {
     if (typeof value !== "string") {
-      return { [property]: value };
+      return {
+        [longhandPropertyName("Start")]: value,
+        [longhandPropertyName("End")]: value,
+      };
     }
     const values = parseShorthand(value);
     return {
@@ -159,6 +164,8 @@ export const Box = createComponent({
     },
     focusVisible: { or: ["&:focus-visible", "&.\\:focus-visible"] },
     hover: { or: [{ and: ["@media (hover:hover)", "&:hover"] }, "&.\\:hover"] },
+    hasLeadingIcon: "&:has(svg:first-child)",
+    hasTrailingIcon: "&:has(svg:last-child)",
   }),
   styleProps: createStyleProps({
     alignItems: true,
@@ -275,12 +282,15 @@ export const Box = createComponent({
       parseLengths,
       x => `paddingInline${x}`,
     ),
+    paddingInlineEnd: true,
+    paddingInlineStart: true,
     paddingLeft: true,
     paddingRight: true,
     paddingTop: true,
     placeItems: true,
     position: true,
     stroke: true,
+    textAlign: true,
     textDecorationColor: true,
     textDecorationLine: true,
     textDecorationThickness: true,

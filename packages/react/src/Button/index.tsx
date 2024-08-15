@@ -32,9 +32,26 @@ const Button = forwardRef<
         .join(" ")}
       conditions={{
         sizeMedium: { or: ["classB", "classC", "classD"] },
+        sizeMediumWithLeadingIcon: {
+          and: [{ or: ["classB", "classC", "classD"] }, "hasLeadingIcon"],
+        },
+        sizeMediumWithTrailingIcon: {
+          and: [{ or: ["classB", "classC", "classD"] }, "hasTrailingIcon"],
+        },
         sizeLarge: { or: ["classC", "classD"] },
+        sizeLargeWithLeadingIcon: {
+          and: [{ or: ["classC", "classD"] }, "hasLeadingIcon"],
+        },
+        sizeLargeWithTrailingIcon: {
+          and: [{ or: ["classC", "classD"] }, "hasTrailingIcon"],
+        },
         sizeXlarge: "classD",
+        sizeXlargeWithLeadingIcon: { and: ["classD", "hasLeadingIcon"] },
+        sizeXlargeWithTrailingIcon: { and: ["classD", "hasTrailingIcon"] },
       }}
+      display="inline-flex"
+      alignItems="center"
+      textAlign="start"
       backgroundColor={accent(53)}
       hover:backgroundColor={accent(60)}
       active:backgroundColor={accent(43)}
@@ -50,12 +67,24 @@ const Button = forwardRef<
       sizeXlarge:fontSize={24}
       paddingBlock={4}
       paddingInline={10}
+      gap={5}
+      hasLeadingIcon:paddingInlineStart="calc(10px - 0.125lh)"
+      hasTrailingIcon:paddingInlineEnd="calc(10px - 0.125lh)"
       sizeMedium:paddingBlock={8}
       sizeMedium:paddingInline={14}
+      sizeMedium:gap={7}
+      sizeMediumWithLeadingIcon:paddingInlineStart="calc(14px - 0.125lh)"
+      sizeMediumWithTrailingIcon:paddingInlineEnd="calc(14px - 0.125lh)"
       sizeLarge:paddingBlock={8}
-      sizeLarge:paddingInline={20}
+      sizeLarge:paddingInline={16}
+      sizeLarge:gap={8}
+      sizeLargeWithLeadingIcon:paddingInlineStart="calc(16px - 0.125lh)"
+      sizeLargeWithTrailingIcon:paddingInlineEnd="calc(16px - 0.125lh)"
       sizeXlarge:paddingBlock={10}
-      sizeXlarge:paddingInline={24}
+      sizeXlarge:paddingInline={20}
+      sizeXlarge:gap={10}
+      sizeXlargeWithLeadingIcon:paddingInlineStart="calc(20px - 0.125lh)"
+      sizeXlargeWithTrailingIcon:paddingInlineEnd="calc(20px - 0.125lh)"
       borderRadius={2}
       outlineOffset={2}
       outlineWidth={0}
