@@ -1,0 +1,6 @@
+.changeset/*.md
+.vscode
+dist
+packages/*/CHANGELOG.md
+pnpm-lock.yaml
+docs/api
