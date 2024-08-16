@@ -27,6 +27,9 @@ const { StyleSheet, hooks } = createHooks([
   "&.b",
   "&.c",
   "&.d",
+  "&.e",
+  "&.f",
+  "&.g",
 ]);
 
 export { StyleSheet };
@@ -151,6 +154,9 @@ export const Box = createComponent({
     classB: "&.b",
     classC: "&.c",
     classD: "&.d",
+    classE: "&.e",
+    classF: "&.f",
+    classG: "&.g",
     dark: {
       or: [
         {
@@ -163,7 +169,16 @@ export const Box = createComponent({
       or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
     },
     focusVisible: { or: ["&:focus-visible", "&.\\:focus-visible"] },
-    hover: { or: [{ and: ["@media (hover:hover)", "&:hover"] }, "&.\\:hover"] },
+    hover: {
+      and: [
+        { or: [{ and: ["@media (hover:hover)", "&:hover"] }, "&.\\:hover"] },
+        {
+          not: {
+            or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
+          },
+        },
+      ],
+    },
     hasLeadingIcon: "&:has(svg:first-child)",
     hasTrailingIcon: "&:has(svg:last-child)",
   }),

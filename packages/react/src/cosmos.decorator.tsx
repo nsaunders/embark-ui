@@ -73,20 +73,12 @@ export default function Decorator({ children }: { children?: ReactNode }) {
 
   const radius = radii.indexOf(radiusSetting) as ArrayIndex<typeof radii>;
 
-  const [theme] = useFixtureSelect(
-    controlLabel({ type: "global", text: "Theme" }),
-    {
-      defaultValue: "auto",
-      options: ["auto", "dark", "light"],
-    },
-  );
-
   useEffect(() => {
     document.body.style.margin = "0";
-    document.body.setAttribute("data-theme", theme);
-  }, [theme]);
+  }, []);
 
   const [container, setContainer] = useState<HTMLElement | null>(null);
+
   useEffect(() => {
     for (
       let current = container?.parentElement;
@@ -104,17 +96,27 @@ export default function Decorator({ children }: { children?: ReactNode }) {
     <Box fontFamily={font}>
       <StyleSheet />
       <Box
-        as={Root}
         ref={setContainer}
         width="100dvw"
         height="100dvh"
-        overflow="auto"
-        accent={accent}
-        gray={gray}
-        radius={radius}
-        backgroundColor={Colors.gray(98)}
-        dark:backgroundColor={Colors.gray(10)}>
-        {children}
+        display="grid"
+        gridTemplateColumns="repeat(2, 1fr)">
+        {["light", "dark"].map(theme => (
+          <Box data-theme={theme} key={theme} display="contents">
+            <Box
+              as={Root}
+              overflow="auto"
+              accent={accent}
+              gray={gray}
+              radius={radius}
+              backgroundColor={Colors.gray(98)}
+              color={Colors.gray(10)}
+              dark:backgroundColor={Colors.gray(10)}
+              dark:color={Colors.gray(98)}>
+              {children}
+            </Box>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

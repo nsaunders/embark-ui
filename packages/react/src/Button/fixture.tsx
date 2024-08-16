@@ -5,7 +5,12 @@ import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 import Box from "@/Box/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
-import Button, { buttonSizes, defaultButtonSize } from "./index.js";
+import Button, {
+  buttonSizes,
+  buttonVariants,
+  defaultButtonSize,
+  defaultButtonVariant,
+} from "./index.js";
 
 export default {
   Default() {
@@ -15,6 +20,10 @@ export default {
         options: [...buttonSizes],
         defaultValue: defaultButtonSize,
       },
+    );
+    const [variant] = useFixtureSelect(
+      controlLabel({ type: "prop", text: "Variant" }),
+      { options: [...buttonVariants], defaultValue: defaultButtonVariant },
     );
     const [text] = useFixtureInput(
       controlLabel({ type: "demo", text: "Text" }),
@@ -52,6 +61,7 @@ export default {
     return (
       <Button
         size={size}
+        variant={variant}
         className={[
           hover && ":hover",
           focusVisible && ":focus-visible",
@@ -82,6 +92,17 @@ export default {
         {buttonSizes.map(size => (
           <Button key={size} size={size}>
             {size}
+          </Button>
+        ))}
+      </Box>
+    );
+  },
+  Variants() {
+    return (
+      <Box display="flex" gap={8} alignItems="center">
+        {buttonVariants.map(variant => (
+          <Button key={variant} variant={variant}>
+            {variant}
           </Button>
         ))}
       </Box>

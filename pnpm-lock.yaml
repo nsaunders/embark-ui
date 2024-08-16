@@ -36,8 +36,8 @@ importers:
   packages/react:
     devDependencies:
       '@embellish/react':
-        specifier: ^0.7.0
-        version: 0.7.0(@types/react@18.3.3)(react@18.3.1)
+        specifier: ~0.7.1
+        version: 0.7.1(@types/react@18.3.3)(react@18.3.1)
       '@fontsource-variable/inter':
         specifier: ^5.0.20
         version: 5.0.20
@@ -242,8 +242,8 @@ packages:
   '@changesets/write@0.3.1':
     resolution: {integrity: sha512-SyGtMXzH3qFqlHKcvFY2eX+6b0NGiFcNav8AFsYwy5l8hejOeoeTDemu5Yjmke2V5jpzY+pBvM0vCCQ3gdZpfw==}
 
-  '@embellish/react@0.7.0':
-    resolution: {integrity: sha512-gyYX2h0yPHEzRB19EQbGD0MH5kc0QUunJ21SuxQ/7pbaI20T7LfUZmCZZVjpTe5ESvuM73/V/NE5vJiu8K9Cvg==}
+  '@embellish/react@0.7.1':
+    resolution: {integrity: sha512-d40bvLGyTutRg3iIib4EAIjTo9rxIbdYKjcHJR5RSaxcg8JIykl/yzQTf7m+IjVPXWYBB+rAgH5xp399wcKsvA==}
     peerDependencies:
       '@types/react': '>=17 <20'
       react: '>=17 <20'
@@ -2574,7 +2574,7 @@ snapshots:
       human-id: 1.0.2
       prettier: 2.8.8
 
-  '@embellish/react@0.7.0(@types/react@18.3.3)(react@18.3.1)':
+  '@embellish/react@0.7.1(@types/react@18.3.3)(react@18.3.1)':
     dependencies:
       '@types/react': 18.3.3
       react: 18.3.1

@@ -8,7 +8,7 @@
     "test": "echo \"You should add some tests.\""
   },
   "devDependencies": {
-    "@embellish/react": "^0.7.0",
+    "@embellish/react": "~0.7.1",
     "@fontsource-variable/inter": "^5.0.20",
     "@fontsource-variable/montserrat": "^5.0.19",
     "@fontsource-variable/noto-sans": "^5.0.5",
