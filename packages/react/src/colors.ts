@@ -77,13 +77,18 @@ export const {
 } = new Proxy(
   {},
   {
-    get: (_, p) => (lightness: number) =>
-      `oklab(${Math.min(Math.max(0, lightness), 100)}% var(--${String(p)}))`,
+    get:
+      (_, p) =>
+      (lightness: number, alpha: number = 1) => {
+        const L = Math.min(Math.max(0, lightness), 100);
+        const A = Math.min(Math.max(0, alpha), 1);
+        return `oklab(${L}% var(--${String(p)})${A === 1 ? "" : ` / ${A}`})`;
+      },
   },
 ) as {
   [Color in
     | "accent"
     | "gray"
     | (typeof accents)[number]
-    | (typeof grays)[number]]: (lightness: number) => string;
+    | (typeof grays)[number]]: (lightness: number, alpha?: number) => string;
 };

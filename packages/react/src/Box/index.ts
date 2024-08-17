@@ -168,7 +168,16 @@ export const Box = createComponent({
     disabled: {
       or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
     },
-    focusVisible: { or: ["&:focus-visible", "&.\\:focus-visible"] },
+    focusVisible: {
+      and: [
+        { or: ["&:focus-visible", "&.\\:focus-visible"] },
+        {
+          not: {
+            or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
+          },
+        },
+      ],
+    },
     hover: {
       and: [
         { or: [{ and: ["@media (hover:hover)", "&:hover"] }, "&.\\:hover"] },

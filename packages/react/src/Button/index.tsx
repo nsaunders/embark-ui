@@ -46,6 +46,7 @@ const Button = forwardRef<
           .filter(x => x)
           .join(" ")}
         conditions={{
+          hover: { and: ["hover", { not: "focusVisible" }] },
           medium: { or: ["classB", "classC", "classD"] },
           mediumWithLeadingIcon: {
             and: [{ or: ["classB", "classC", "classD"] }, "hasLeadingIcon"],
@@ -64,11 +65,7 @@ const Button = forwardRef<
           xlargeWithLeadingIcon: { and: ["classD", "hasLeadingIcon"] },
           xlargeWithTrailingIcon: { and: ["classD", "hasTrailingIcon"] },
           ghost: "classG",
-          ghostHover: { and: ["classG", "hover"] },
-          ghostActive: { and: ["classG", "active"] },
           darkGhost: { and: ["dark", "classG"] },
-          darkGhostHover: { and: ["dark", "classG", "hover"] },
-          darkGhostActive: { and: ["dark", "classG", "active"] },
           subdued: "classF",
           subduedHover: { and: ["classF", "hover"] },
           subduedActive: { and: ["classF", "active"] },
@@ -79,7 +76,7 @@ const Button = forwardRef<
           solidHover: { and: ["classE", "hover"] },
           solidActive: { and: ["classE", "active"] },
           solidDisabled: { and: ["classE", "disabled"] },
-          darkHover: { and: ["dark", "hover"] },
+          darkHover: { and: ["dark", "hover", { not: "focusVisible" }] },
           darkActive: { and: ["dark", "active"] },
         }}
         display="inline-flex"
@@ -139,8 +136,8 @@ const Button = forwardRef<
         outlineOffset={2}
         outlineWidth={0}
         outlineStyle="solid"
-        outlineColor={gray(80)}
-        dark:outlineColor={gray(40)}
+        outlineColor={gray(25, 0.25)}
+        dark:outlineColor={gray(85, 0.25)}
         focusVisible:outlineWidth={2}
         transitionProperty="background-color"
         transitionDuration="150ms"
