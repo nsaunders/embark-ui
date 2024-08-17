@@ -67,6 +67,8 @@ const Button = forwardRef<
           ghostHover: { and: ["classG", "hover"] },
           ghostActive: { and: ["classG", "active"] },
           darkGhost: { and: ["dark", "classG"] },
+          darkGhostHover: { and: ["dark", "classG", "hover"] },
+          darkGhostActive: { and: ["dark", "classG", "active"] },
           subdued: "classF",
           subduedHover: { and: ["classF", "hover"] },
           subduedActive: { and: ["classF", "active"] },
@@ -77,6 +79,8 @@ const Button = forwardRef<
           solidHover: { and: ["classE", "hover"] },
           solidActive: { and: ["classE", "active"] },
           solidDisabled: { and: ["classE", "disabled"] },
+          darkHover: { and: ["dark", "hover"] },
+          darkActive: { and: ["dark", "active"] },
         }}
         display="inline-flex"
         alignItems="center"
@@ -84,26 +88,27 @@ const Button = forwardRef<
         minHeight="1lh"
         boxSizing="content-box"
         borderWidth={0}
-        innerStrokeWidth={0}
-        subdued:innerStrokeWidth={1}
-        ghostHover:innerStrokeWidth={1}
-        innerStrokeColor={gray(70)}
-        dark:innerStrokeColor={gray(40)}
-        ghostActive:innerStrokeColor={gray(35)}
-        subdued:backgroundColor={gray(90)}
-        subduedHover:backgroundColor={gray(95)}
-        subduedActive:backgroundColor={gray(85)}
-        darkSubdued:backgroundColor={gray(23)}
-        darkSubduedHover:backgroundColor={gray(28)}
-        darkSubduedActive:backgroundColor={gray(18)}
-        solid:backgroundColor={accent(53)}
-        solidHover:backgroundColor={accent(63)}
-        solidActive:backgroundColor={accent(43)}
-        solidDisabled:backgroundColor={gray(43)}
+        ghost:innerStrokeWidth={1}
+        hover:innerStrokeColor={`color-mix(in srgb,${gray(70)},transparent 50%)`}
+        active:innerStrokeColor={`color-mix(in srgb,${gray(60)},transparent 50%)`}
+        darkHover:innerStrokeColor={`color-mix(in srgb,${gray(50)},transparent 50%)`}
+        darkActive:innerStrokeColor={`color-mix(in srgb,${gray(40)},transparent 50%)`}
+        subdued:backgroundColor={`color-mix(in srgb,${gray(70)},transparent 50%)`}
+        subduedHover:backgroundColor={`color-mix(in srgb,${gray(80)},transparent 50%)`}
+        subduedActive:backgroundColor={`color-mix(in srgb,${gray(60)},transparent 50%)`}
+        darkSubdued:backgroundColor={`color-mix(in srgb,${gray(40)},transparent 50%)`}
+        darkSubduedHover:backgroundColor={`color-mix(in srgb,${gray(50)},transparent 50%)`}
+        darkSubduedActive:backgroundColor={`color-mix(in srgb,${gray(30)},transparent 50%)`}
+        solid:backgroundColor={accent(55)}
+        solidHover:backgroundColor={accent(65)}
+        solidActive:backgroundColor={accent(45)}
+        solidDisabled:backgroundColor={gray(45)}
         color="contrast"
+        subdued:color="#000"
+        darkSubdued:color="#fff"
         ghost:color="black"
         darkGhost:color="white"
-        disabled:color={gray(63)}
+        disabled:color={gray(65)}
         disabled:cursor="not-allowed"
         lineHeight={1.25}
         fontSize={14}
