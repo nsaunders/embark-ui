@@ -81,8 +81,15 @@ export const {
       (_, p) =>
       (lightness: number, alpha: number = 1) => {
         const L = Math.min(Math.max(0, lightness), 100);
+        const base = `color-mix(in lab,oklab(55% var(--${String(p)})),#${L < 55 ? "000" : "fff"} ${Math.abs(50 - L) * 2}%)`;
+
         const A = Math.min(Math.max(0, alpha), 1);
-        return `oklab(${L}% var(--${String(p)})${A === 1 ? "" : ` / ${A}`})`;
+
+        if (A !== 1) {
+          return `color-mix(in srgb,${base},transparent ${(1 - A) * 100}%)`;
+        }
+
+        return base;
       },
   },
 ) as {

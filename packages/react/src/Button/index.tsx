@@ -3,7 +3,7 @@ import React from "react";
 import type { PolyRefFunction } from "react-polymorphed";
 
 import Box from "@/Box/index.js";
-import { accent, gray } from "@/colors.js";
+import { accent, gray } from "@/colors/index.js";
 
 const forwardRef = React.forwardRef as PolyRefFunction;
 
@@ -76,8 +76,10 @@ const Button = forwardRef<
           solidHover: { and: ["classE", "hover"] },
           solidActive: { and: ["classE", "active"] },
           solidDisabled: { and: ["classE", "disabled"] },
+          darkSolidDisabled: { and: ["classE", "disabled", "dark"] },
           darkHover: { and: ["dark", "hover", { not: "focusVisible" }] },
           darkActive: { and: ["dark", "active"] },
+          darkDisabled: { and: ["disabled", "dark"] },
         }}
         display="inline-flex"
         alignItems="center"
@@ -96,16 +98,18 @@ const Button = forwardRef<
         darkSubdued:backgroundColor={`color-mix(in srgb,${gray(40)},transparent 50%)`}
         darkSubduedHover:backgroundColor={`color-mix(in srgb,${gray(50)},transparent 50%)`}
         darkSubduedActive:backgroundColor={`color-mix(in srgb,${gray(30)},transparent 50%)`}
-        solid:backgroundColor={accent(55)}
-        solidHover:backgroundColor={accent(65)}
+        solid:backgroundColor={accent(50)}
+        solidHover:backgroundColor={accent(55)}
         solidActive:backgroundColor={accent(45)}
-        solidDisabled:backgroundColor={gray(45)}
+        solidDisabled:backgroundColor={gray(60)}
+        darkSolidDisabled:backgroundColor={gray(40)}
         color="contrast"
         subdued:color="#000"
         darkSubdued:color="#fff"
         ghost:color="black"
         darkGhost:color="white"
-        disabled:color={gray(65)}
+        disabled:color={gray(30)}
+        darkDisabled:color={gray(65)}
         disabled:cursor="not-allowed"
         lineHeight={1.25}
         fontSize={14}

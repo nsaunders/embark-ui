@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useFixtureSelect } from "react-cosmos/client";
 
 import Box, { StyleSheet } from "./Box/index.js";
-import * as Colors from "./colors.js";
+import * as colors from "./colors/index.js";
 import { controlLabel } from "./cosmos.utils.js";
 import Root from "./Root/index.js";
 
@@ -40,7 +40,7 @@ export default function Decorator({ children }: { children?: ReactNode }) {
   const [gray] = useFixtureSelect(
     controlLabel({ type: "global", text: "Gray" }),
     {
-      options: [...Colors.grays],
+      options: [...colors.grays],
       defaultValue: "slate",
     },
   );
@@ -48,7 +48,7 @@ export default function Decorator({ children }: { children?: ReactNode }) {
   const [accent] = useFixtureSelect(
     controlLabel({ type: "global", text: "Accent" }),
     {
-      options: [...Colors.accents],
+      options: [...colors.accents],
       defaultValue: "blue",
     },
   );
@@ -93,14 +93,20 @@ export default function Decorator({ children }: { children?: ReactNode }) {
   }, [container]);
 
   return (
-    <Box fontFamily={font}>
+    <Box
+      fontFamily={font}
+      width="100dvw"
+      height="100dvh"
+      display="grid"
+      containerType="size">
       <StyleSheet />
       <Box
         ref={setContainer}
-        width="100dvw"
-        height="100dvh"
         display="grid"
-        gridTemplateColumns="repeat(2, 1fr)">
+        gridTemplateColumns="1fr"
+        gridTemplateRows="repeat(2, 1fr)"
+        wide:gridTemplateColumns="repeat(2, 1fr)"
+        wide:gridTemplateRows="1fr">
         {["light", "dark"].map(theme => (
           <Box data-theme={theme} key={theme} display="contents">
             <Box
@@ -109,10 +115,10 @@ export default function Decorator({ children }: { children?: ReactNode }) {
               accent={accent}
               gray={gray}
               radius={radius}
-              backgroundColor={Colors.gray(98)}
-              color={Colors.gray(10)}
-              dark:backgroundColor={Colors.gray(10)}
-              dark:color={Colors.gray(98)}>
+              backgroundColor={colors.gray(98)}
+              color={colors.gray(10)}
+              dark:backgroundColor={colors.gray(10)}
+              dark:color={colors.gray(98)}>
               {children}
             </Box>
           </Box>

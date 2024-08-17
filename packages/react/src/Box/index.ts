@@ -8,10 +8,11 @@ import type {} from "csstype";
 import type { CSSProperties } from "react";
 
 const { StyleSheet, hooks } = createHooks([
-  "&:has(svg:first-child)",
-  "&:has(svg:last-child)",
   "@media (hover:hover)",
   "@media (prefers-color-scheme: dark)",
+  "@container (min-width: 100cqh)",
+  "&:has(svg:first-child)",
+  "&:has(svg:last-child)",
   '[data-theme="auto"] &',
   '[data-theme="dark"] &',
   "&:active",
@@ -190,6 +191,7 @@ export const Box = createComponent({
     },
     hasLeadingIcon: "&:has(svg:first-child)",
     hasTrailingIcon: "&:has(svg:last-child)",
+    wide: "@container (min-width: 100cqh)",
   }),
   styleProps: createStyleProps({
     alignItems: true,
@@ -242,6 +244,7 @@ export const Box = createComponent({
     }),
     fontWeight: true,
     gap: true,
+    gridAutoFlow: true,
     gridColumn: true,
     gridRow: true,
     gridTemplateColumns: true,

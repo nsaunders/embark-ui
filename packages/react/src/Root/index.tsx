@@ -2,8 +2,8 @@ import type { CSSProperties } from "react";
 import { forwardRef } from "react";
 import type { PolyRefFunction } from "react-polymorphed";
 
-import type { accents, grays } from "@/colors.js";
-import { colorValues } from "@/colors.js";
+import type { accents, grays } from "@/colors/index.js";
+import { colorValues } from "@/colors/index.js";
 
 const polyForwardRef = forwardRef as PolyRefFunction;
 
