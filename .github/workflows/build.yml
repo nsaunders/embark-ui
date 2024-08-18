@@ -7,6 +7,11 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
@@ -32,6 +37,22 @@ jobs:
       - run: pnpm check
 
       - run: pnpm -r test
+
+      - if: github.ref == 'refs/heads/master'
+        run: pnpm -r -F @embark-ui/react cosmos-export
+
+      - if: github.ref == 'refs/heads/master'
+        uses: actions/configure-pages@v5
+
+      - if: github.ref == 'refs/heads/master'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./packages/react/cosmos-export
+
+      - if: github.ref == 'refs/heads/master'
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Ensure docs are up-to-date.
       # - name: docs
