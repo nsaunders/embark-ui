@@ -6,8 +6,9 @@ import {
 } from "@embellish/react";
 import type {} from "csstype";
 import type { CSSProperties } from "react";
+import { createElement, Fragment } from "react";
 
-const { StyleSheet, hooks } = createHooks([
+const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "@media (hover:hover)",
   "@media (prefers-color-scheme: dark)",
   "@container (min-width: 100cqh)",
@@ -33,7 +34,18 @@ const { StyleSheet, hooks } = createHooks([
   "&.g",
 ]);
 
-export { StyleSheet };
+export function StyleSheet() {
+  return createElement(
+    Fragment,
+    undefined,
+    createElement(HooksStyleSheet),
+    createElement(
+      "style",
+      undefined,
+      `::placeholder{color: var(--placeholder-color);text-shadow:none}`,
+    ),
+  );
+}
 
 function parseLengths(
   [char, ...str]: string,
@@ -318,12 +330,17 @@ export const Box = createComponent({
     paddingRight: true,
     paddingTop: true,
     placeItems: true,
+    placeholderColor: (value: CSSProperties["color"]) =>
+      ({
+        "--placeholder-color": value,
+      }) as CSSProperties,
     position: true,
     stroke: true,
     textAlign: true,
     textDecorationColor: true,
     textDecorationLine: true,
     textDecorationThickness: true,
+    textShadow: true,
     textUnderlineOffset: true,
     transform: true,
     transitionProperty: true,
