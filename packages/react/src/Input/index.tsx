@@ -51,6 +51,7 @@ const Input = forwardRef<
       disabled:color={gray(67.5)}
       darkDisabled:color={gray(40)}
       disabled:textShadow="1px 1px #fff"
+      placeholderTextShadow="none"
       darkDisabled:textShadow={`1px 1px ${gray(55)}`}
       borderWidth={0}
       fontSize={14}

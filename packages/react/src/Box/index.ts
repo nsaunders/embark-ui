@@ -42,7 +42,7 @@ export function StyleSheet() {
     createElement(
       "style",
       undefined,
-      `::placeholder{color: var(--placeholder-color);text-shadow:none}`,
+      `::placeholder{color: var(--placeholder-color);text-shadow:var(--placeholder-text-shadow)}`,
     ),
   );
 }
@@ -333,6 +333,10 @@ export const Box = createComponent({
     placeholderColor: (value: CSSProperties["color"]) =>
       ({
         "--placeholder-color": value,
+      }) as CSSProperties,
+    placeholderTextShadow: (value: CSSProperties["textShadow"]) =>
+      ({
+        "--placeholder-text-shadow": value,
       }) as CSSProperties,
     position: true,
     stroke: true,
