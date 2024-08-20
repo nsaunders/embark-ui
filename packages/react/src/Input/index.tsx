@@ -57,6 +57,7 @@ const Input = forwardRef<
       medium:fontSize={16}
       large:fontSize={20}
       xlarge:fontSize={24}
+      lineHeight={1.25}
       paddingBlock={4}
       paddingInline={10}
       medium:paddingBlock={8}

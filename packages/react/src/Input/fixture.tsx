@@ -1,10 +1,10 @@
-import { useFixtureInput } from "react-cosmos/client.js";
+import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 
 import Box from "@/Box/index.js";
 import Button from "@/Button/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
-import Input from "./index.js";
+import Input, { inputSizes } from "./index.js";
 
 function useElementStateClasses() {
   const [hover] = useFixtureInput(
@@ -50,19 +50,33 @@ export default {
       />
     );
   },
+  Sizes() {
+    return (
+      <>
+        {inputSizes.map(size => (
+          <Input key={size} size={size} />
+        ))}
+      </>
+    );
+  },
   "Next to Button"() {
     const elementStateClasses = useElementStateClasses();
+    const [size] = useFixtureSelect("Size", {
+      options: [...inputSizes],
+      defaultValue: "medium",
+    });
     const [value, setValue] = useFixtureInput("Value", "");
     return (
-      <Box display="flex" gap={8}>
+      <Box display="flex" alignItems="center" gap={8}>
         <Input
+          size={size}
           value={value}
           onChange={e => {
             setValue(e.target.value);
           }}
           className={elementStateClasses}
         />
-        <Button variant="subdued" className={elementStateClasses}>
+        <Button size={size} variant="subdued" className={elementStateClasses}>
           Submit
         </Button>
       </Box>
