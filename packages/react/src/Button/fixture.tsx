@@ -39,6 +39,13 @@ function useElementStateClasses() {
     .join(" ");
 }
 
+function useVariant() {
+  return useFixtureSelect(controlLabel({ type: "prop", text: "Variant" }), {
+    options: [...buttonVariants],
+    defaultValue: defaultButtonVariant,
+  })[0];
+}
+
 export default {
   Default() {
     const [size] = useFixtureSelect(
@@ -49,10 +56,7 @@ export default {
       },
     );
 
-    const [variant] = useFixtureSelect(
-      controlLabel({ type: "prop", text: "Variant" }),
-      { options: [...buttonVariants], defaultValue: defaultButtonVariant },
-    );
+    const variant = useVariant();
 
     const [text] = useFixtureInput(
       controlLabel({ type: "demo", text: "Text" }),
@@ -97,10 +101,11 @@ export default {
     );
   },
   Sizes() {
+    const variant = useVariant();
     return (
       <Box display="flex" gap={8} alignItems="center">
         {buttonSizes.map(size => (
-          <Button key={size} size={size}>
+          <Button key={size} size={size} variant={variant}>
             {size}
           </Button>
         ))}

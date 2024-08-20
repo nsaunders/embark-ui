@@ -37,17 +37,34 @@ export default {
   Default() {
     const elementStateClasses = useElementStateClasses();
     return (
-      <>
-        <Input placeholder="Placeholder text" className={elementStateClasses} />
-        <Input defaultValue="User input text" className={elementStateClasses} />
-      </>
+      <Input defaultValue="User input text" className={elementStateClasses} />
+    );
+  },
+  Placeholder() {
+    const elementStateClasses = useElementStateClasses();
+    return (
+      <Input
+        placeholder="Placeholder text"
+        readOnly
+        className={elementStateClasses}
+      />
     );
   },
   "Next to Button"() {
+    const elementStateClasses = useElementStateClasses();
+    const [value, setValue] = useFixtureInput("Value", "");
     return (
       <Box display="flex" gap={8}>
-        <Input />
-        <Button>Submit</Button>
+        <Input
+          value={value}
+          onChange={e => {
+            setValue(e.target.value);
+          }}
+          className={elementStateClasses}
+        />
+        <Button variant="subdued" className={elementStateClasses}>
+          Submit
+        </Button>
       </Box>
     );
   },

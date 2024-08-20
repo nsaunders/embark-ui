@@ -3,7 +3,7 @@ import * as React from "react";
 import type { PolyRefFunction } from "react-polymorphed";
 
 import { Box } from "@/Box/index.js";
-import { gray } from "@/colors/index.js";
+import { accent, gray } from "@/colors/index.js";
 
 const forwardRef = React.forwardRef as PolyRefFunction;
 
@@ -67,11 +67,10 @@ const Input = forwardRef<
       xlarge:paddingInline={20}
       xlarge:gap={10}
       borderRadius={2}
-      outlineOffset={2}
       outlineWidth={0}
       outlineStyle="solid"
-      outlineColor={gray(25, 0.25)}
-      dark:outlineColor={gray(85, 0.25)}
+      outlineColor={accent(45, 0.375)}
+      dark:outlineColor={accent(65, 0.375)}
       focusVisible:outlineWidth={2}
       disabled:cursor="not-allowed"
       ref={ref}
