@@ -2,15 +2,23 @@ import type { CSSProperties } from "react";
 import { forwardRef } from "react";
 import type { PolyRefFunction } from "react-polymorphed";
 
-import type { accents, grays } from "@/colors/index.js";
-import { colorValues } from "@/colors/index.js";
+import { accents, colorValues, grays } from "@/colors/index.js";
 
 const polyForwardRef = forwardRef as PolyRefFunction;
+
+export const rootAccents = accents;
+export const defaultRootAccent: (typeof rootAccents)[number] = "blue";
+
+export const rootGrays = grays;
+export const defaultRootGray: (typeof rootGrays)[number] = "slate";
+
+export const rootRadii = ["none", "medium", "full"] as const;
+export const defaultRootRadius: (typeof rootRadii)[number] = "medium";
 
 interface RootProps {
   accent?: (typeof accents)[number];
   gray?: (typeof grays)[number];
-  radius?: number;
+  radius?: (typeof rootRadii)[number];
   style?: CSSProperties;
 }
 
@@ -23,9 +31,9 @@ const Root = polyForwardRef<
 >(function (
   {
     as: Component = defaultRootElement,
-    accent = "blue",
-    gray = "slate",
-    radius = 2,
+    accent = defaultRootAccent,
+    gray = defaultRootGray,
+    radius = defaultRootRadius,
     style,
     ...restProps
   },
@@ -45,7 +53,7 @@ const Root = polyForwardRef<
           ),
           "--accent": `var(--${accent})`,
           "--gray": `var(--${gray})`,
-          "--radius": radius,
+          "--radius": { none: 0, medium: 4, full: 999 }[radius],
         } as CSSProperties
       }
       ref={ref}

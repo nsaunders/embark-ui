@@ -6,72 +6,88 @@ import "@fontsource-variable/roboto-mono";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { useFixtureSelect } from "react-cosmos/client";
+import { z } from "zod";
 
 import Box, { StyleSheet } from "./Box/index.js";
 import * as colors from "./colors/index.js";
 import { controlLabel } from "./cosmos.utils.js";
-import Root from "./Root/index.js";
+import Root, { defaultRootRadius, rootRadii } from "./Root/index.js";
 
-type ArrayIndex<
-  A extends Readonly<Array<unknown>>,
-  Acc = never,
-> = A extends readonly [infer _, ...infer Tail]
-  ? ArrayIndex<Tail, Tail["length"] | Acc>
-  : Acc;
+const fonts = ["Inter", "Montserrat", "Noto Sans", "Roboto Mono"] as const;
 
-const radii = [
-  "none",
-  "xsmall",
-  "small",
-  "medium",
-  "large",
-  "xlarge",
-  "xxlarge",
-] as const;
-
-const fonts = {
+const fontValues: { [F in (typeof fonts)[number]]: string } = {
   Inter: "'Inter Variable', sans-serif",
   Montserrat: "'Montserrat Variable', sans-serif",
   "Noto Sans": "'Noto Sans Variable', sans-serif",
   "Roboto Mono": "'Roboto Mono Variable', monospace",
-} as const;
+};
+
+function usePersistentSetting<T extends string>(
+  key: string,
+  parser: z.ZodSchema<T>,
+  [value, setValue]: [T, (t: T) => void],
+): [T, (t: T) => void] {
+  useEffect(() => {
+    const parsed = z
+      .string()
+      .transform((str, ctx): unknown => {
+        try {
+          return JSON.parse(str);
+        } catch (e) {
+          ctx.addIssue({ code: "custom", message: "Invalid JSON" });
+          return z.NEVER;
+        }
+      })
+      .pipe(parser)
+      .safeParse(sessionStorage.getItem(key));
+    if (parsed.success) {
+      setValue(parsed.data);
+    }
+  }, []);
+  useEffect(() => {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  }, [value]);
+  return [value, setValue];
+}
 
 export default function Decorator({ children }: { children?: ReactNode }) {
-  const [gray] = useFixtureSelect(
-    controlLabel({ type: "global", text: "Gray" }),
-    {
+  const [gray] = usePersistentSetting(
+    "gray",
+    z.enum(colors.grays),
+    useFixtureSelect(controlLabel({ type: "global", text: "Gray" }), {
       options: [...colors.grays],
       defaultValue: "slate",
-    },
+    }),
   );
 
-  const [accent] = useFixtureSelect(
-    controlLabel({ type: "global", text: "Accent" }),
-    {
+  const [accent] = usePersistentSetting(
+    "accent",
+    z.enum(colors.accents),
+    useFixtureSelect(controlLabel({ type: "global", text: "Accent" }), {
       options: [...colors.accents],
       defaultValue: "blue",
-    },
+    }),
   );
 
-  const [fontSetting] = useFixtureSelect(
-    controlLabel({ type: "global", text: "Font" }),
-    {
-      options: Object.keys(fonts) as (keyof typeof fonts)[],
+  const [fontSetting] = usePersistentSetting(
+    "font",
+    z.enum(fonts),
+    useFixtureSelect(controlLabel({ type: "global", text: "Font" }), {
+      options: [...fonts],
       defaultValue: "Inter",
-    },
+    }),
   );
 
-  const font = fonts[fontSetting];
+  const font = fontValues[fontSetting];
 
-  const [radiusSetting] = useFixtureSelect(
-    controlLabel({ type: "global", text: "Radius" }),
-    {
-      options: [...radii],
-      defaultValue: "medium",
-    },
+  const [radius] = usePersistentSetting(
+    "radius",
+    z.enum(rootRadii),
+    useFixtureSelect(controlLabel({ type: "global", text: "Radius" }), {
+      options: [...rootRadii],
+      defaultValue: defaultRootRadius,
+    }),
   );
-
-  const radius = radii.indexOf(radiusSetting) as ArrayIndex<typeof radii>;
 
   useEffect(() => {
     document.body.style.margin = "0";
