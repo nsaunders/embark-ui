@@ -25,11 +25,6 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&.\\:focus-visible",
   "&:hover",
   "&.\\:hover",
-  "&:has(.item:disabled)",
-  '&:has(.item[aria-disabled="true"])',
-  "&:has(.item.\\:disabled)",
-  '&:has(.item:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
-  '&:has(.item.\\:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
   "&.a",
   "&.b",
   "&.c",
@@ -37,10 +32,15 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&.e",
   "&.f",
   "&.g",
-  ".group.a &",
-  ".group.b &",
-  ".group.c &",
-  ".group.d &",
+  "&:has(.item:disabled)",
+  '&:has(.item[aria-disabled="true"])',
+  "&:has(.item.\\:disabled)",
+  '&:has(.item:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
+  '&:has(.item.\\:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
+  "&:has(.item.a)",
+  "&:has(.item.b)",
+  "&:has(.item.c)",
+  "&:has(.item.d)",
 ]);
 
 export function StyleSheet() {
@@ -200,6 +200,10 @@ export const Box = createComponent({
         },
       ],
     },
+    itemClassA: "&:has(.item.a)",
+    itemClassB: "&:has(.item.b)",
+    itemClassC: "&:has(.item.c)",
+    itemClassD: "&:has(.item.d)",
     itemDisabled: {
       or: [
         "&:has(.item:disabled)",

@@ -8,31 +8,27 @@ import { accent, gray } from "@/colors/index.js";
 export const inputSizes = ["small", "medium", "large", "xlarge"] as const;
 export const defaultInputSize: (typeof inputSizes)[number] = "medium";
 
-interface InputWrapProps {
+export interface InputWrapProps {
   children?: ReactNode;
   size?: (typeof inputSizes)[number];
 }
 
-const InputWrap = forwardRef<HTMLDivElement, InputWrapProps>(
-  ({ children, size = defaultInputSize }, ref) => (
+export const InputWrap = forwardRef<HTMLDivElement, InputWrapProps>(
+  ({ children }, ref) => (
     <Box
-      className={[
-        "group",
-        { small: "a", medium: "b", large: "c", xlarge: "d" }[size],
-      ]
-        .filter(x => x)
-        .join(" ")}
       conditions={{
         disabled: "itemDisabled",
         darkDisabled: { and: ["dark", "itemDisabled"] },
         focusVisible: "itemFocusVisible",
         darkFocusVisible: { and: ["dark", "itemFocusVisible"] },
-        small: "classA",
-        medium: "classB",
-        large: "classC",
-        xlarge: "classD",
+        small: "itemClassA",
+        medium: "itemClassB",
+        large: "itemClassC",
+        xlarge: "itemClassD",
       }}
       as="div"
+      display="flex"
+      alignItems="center"
       ref={ref}
       backgroundColor={gray(90)}
       color={gray(20)}
@@ -70,50 +66,44 @@ export interface InputCoreProps {
   size?: (typeof inputSizes)[number];
 }
 
-const InputCore = polyForwardRef<
+export const InputCore = polyForwardRef<
   typeof defaultInputCoreAs,
   InputCoreProps,
-  typeof defaultInputCoreAs | ElementType<HTMLProps<HTMLElement>>
->(
-  (
-    { as = defaultInputCoreAs, size = defaultInputSize, className, ...props },
-    ref,
-  ) => (
-    <Box
-      conditions={{
-        small: "classA",
-        medium: "classB",
-        large: "classC",
-        xlarge: "classD",
-        darkFocusVisible: { and: ["dark", "focusVisible"] },
-      }}
-      className={[
-        className,
-        "item",
-        { small: "a", medium: "b", large: "c", xlarge: "d" }[size],
-      ]
-        .filter(x => x)
-        .join(" ")}
-      as={as}
-      {...props}
-      color="inherit"
-      textShadow="inherit"
-      placeholderColor={gray(55)}
-      placeholderTextShadow="none"
-      borderWidth={0}
-      paddingBlock={4}
-      paddingInline={10}
-      medium:paddingBlock={8}
-      medium:paddingInline={14}
-      large:paddingBlock={8}
-      large:paddingInline={16}
-      xlarge:paddingBlock={10}
-      xlarge:paddingInline={20}
-      outlineWidth={0}
-      ref={ref}
-    />
-  ),
-);
+  typeof defaultInputCoreAs | "div" | ElementType<HTMLProps<HTMLElement>>
+>(({ as = defaultInputCoreAs, className, size = "medium", ...props }, ref) => (
+  <Box
+    conditions={{
+      small: "classA",
+      medium: "classB",
+      large: "classC",
+      xlarge: "classD",
+      darkFocusVisible: { and: ["dark", "focusVisible"] },
+    }}
+    className={[
+      className,
+      "item",
+      { small: "a", medium: "b", large: "c", xlarge: "d" }[size],
+    ].join(" ")}
+    as={as}
+    {...props}
+    display="flex"
+    color="inherit"
+    textShadow="inherit"
+    placeholderColor={gray(55)}
+    placeholderTextShadow="none"
+    borderWidth={0}
+    paddingBlock={4}
+    paddingInline={10}
+    medium:paddingBlock={8}
+    medium:paddingInline={14}
+    large:paddingBlock={8}
+    large:paddingInline={16}
+    xlarge:paddingBlock={10}
+    xlarge:paddingInline={20}
+    outlineWidth={0}
+    ref={ref}
+  />
+));
 
 InputCore.displayName = "InputCore";
 
@@ -123,11 +113,11 @@ export interface InputProps {
 
 const Input = polyForwardRef<
   typeof defaultInputCoreAs,
-  InputCoreProps,
+  InputProps,
   typeof defaultInputCoreAs | ElementType<HTMLProps<HTMLElement>>
 >(({ size = defaultInputSize, ...props }, ref) => (
-  <InputWrap size={size}>
-    <InputCore {...props} ref={ref} />
+  <InputWrap>
+    <InputCore {...props} size={size} ref={ref} />
   </InputWrap>
 ));
 

@@ -4,7 +4,7 @@ import Box from "@/Box/index.js";
 import Button from "@/Button/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
-import Input, { inputSizes } from "./index.js";
+import Input, { InputCore, inputSizes, InputWrap } from "./index.js";
 
 function useElementStateClasses() {
   const [hover] = useFixtureInput(
@@ -54,7 +54,7 @@ export default {
     return (
       <>
         {inputSizes.map(size => (
-          <Input key={size} size={size} />
+          <Input key={size} size={size} defaultValue={size} />
         ))}
       </>
     );
@@ -65,21 +65,20 @@ export default {
       options: [...inputSizes],
       defaultValue: "medium",
     });
-    const [value, setValue] = useFixtureInput("Value", "");
     return (
       <Box display="flex" alignItems="center" gap={8}>
-        <Input
-          size={size}
-          value={value}
-          onChange={e => {
-            setValue(e.target.value);
-          }}
-          className={elementStateClasses}
-        />
+        <Input size={size} className={elementStateClasses} />
         <Button size={size} variant="subdued" className={elementStateClasses}>
           Submit
         </Button>
       </Box>
+    );
+  },
+  Adornment() {
+    return (
+      <InputWrap>
+        <InputCore />
+      </InputWrap>
     );
   },
 };
