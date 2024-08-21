@@ -1,10 +1,16 @@
+import { Eye } from "lucide-react";
 import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 
 import Box from "@/Box/index.js";
 import Button from "@/Button/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
-import Input, { InputCore, inputSizes, InputWrap } from "./index.js";
+import Input, {
+  InputAddon,
+  InputCore,
+  InputGroup,
+  inputSizes,
+} from "./index.js";
 
 function useElementStateClasses() {
   const [hover] = useFixtureInput(
@@ -54,7 +60,7 @@ export default {
     return (
       <>
         {inputSizes.map(size => (
-          <Input key={size} size={size} defaultValue={size} />
+          <Input key={size} size={size} placeholder={size} />
         ))}
       </>
     );
@@ -74,11 +80,14 @@ export default {
       </Box>
     );
   },
-  Adornment() {
+  Addon() {
     return (
-      <InputWrap>
-        <InputCore />
-      </InputWrap>
+      <InputGroup>
+        <InputCore defaultValue="hello" />
+        <InputAddon as="button">
+          <Eye size="1lh" />
+        </InputAddon>
+      </InputGroup>
     );
   },
 };

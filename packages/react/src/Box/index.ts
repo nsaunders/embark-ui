@@ -25,6 +25,8 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&.\\:focus-visible",
   "&:hover",
   "&.\\:hover",
+  "&:first-child",
+  "&:last-child",
   "&.a",
   "&.b",
   "&.c",
@@ -37,10 +39,10 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&:has(.item.\\:disabled)",
   '&:has(.item:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
   '&:has(.item.\\:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
-  "&:has(.item.a)",
-  "&:has(.item.b)",
-  "&:has(.item.c)",
-  "&:has(.item.d)",
+  ".group.a &",
+  ".group.b &",
+  ".group.c &",
+  ".group.d &",
 ]);
 
 export function StyleSheet() {
@@ -113,6 +115,10 @@ function createTRBLShorthand<P extends keyof CSSProperties>(
       [longhandPropertyName("Left")]: values[3] || values[1] || values[0],
     };
   };
+}
+
+function isDimension(value: unknown) {
+  return typeof value === "string" && /[1-9][0-9]*[a-z]+/.test(value);
 }
 
 export const Box = createComponent({
@@ -190,6 +196,7 @@ export const Box = createComponent({
     disabled: {
       or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
     },
+    firstChild: "&:first-child",
     focusVisible: {
       and: [
         { or: ["&:focus-visible", "&.\\:focus-visible"] },
@@ -200,10 +207,22 @@ export const Box = createComponent({
         },
       ],
     },
-    itemClassA: "&:has(.item.a)",
-    itemClassB: "&:has(.item.b)",
-    itemClassC: "&:has(.item.c)",
-    itemClassD: "&:has(.item.d)",
+    groupClassA: ".group.a &",
+    groupClassB: ".group.b &",
+    groupClassC: ".group.c &",
+    groupClassD: ".group.d &",
+    hover: {
+      and: [
+        { or: [{ and: ["@media (hover:hover)", "&:hover"] }, "&.\\:hover"] },
+        {
+          not: {
+            or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
+          },
+        },
+      ],
+    },
+    hasLeadingIcon: "&:has(svg:first-child)",
+    hasTrailingIcon: "&:has(svg:last-child)",
     itemDisabled: {
       or: [
         "&:has(.item:disabled)",
@@ -217,18 +236,9 @@ export const Box = createComponent({
         '&:has(.item.\\:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
       ],
     },
-    hover: {
-      and: [
-        { or: [{ and: ["@media (hover:hover)", "&:hover"] }, "&.\\:hover"] },
-        {
-          not: {
-            or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
-          },
-        },
-      ],
-    },
-    hasLeadingIcon: "&:has(svg:first-child)",
-    hasTrailingIcon: "&:has(svg:last-child)",
+    lastChild: "&:last-child",
+    notFirstChild: { not: "&:first-child" },
+    notLastChild: { not: "&:last-child" },
     wide: "@container (min-width: 100cqh)",
   }),
   styleProps: createStyleProps({
@@ -243,9 +253,56 @@ export const Box = createComponent({
     backgroundSize: true,
     borderColor: true,
     borderInlineStartWidth: true,
-    borderRadius: (value: CSSProperties["borderRadius"]) => ({
-      borderRadius: `calc(${typeof value === "number" ? `${value}px` : value} * var(--radius))`,
-    }),
+    borderRadius: (value: CSSProperties["borderRadius"]) => {
+      const v =
+        typeof value === "number" || isDimension(value)
+          ? `calc(${typeof value === "number" ? `${value}px` : value} * var(--radius))`
+          : value;
+      return {
+        borderStartStartRadius: v,
+        borderStartEndRadius: v,
+        borderEndStartRadius: v,
+        borderEndEndRadius: v,
+      };
+    },
+    borderStartStartRadius: (
+      value: CSSProperties["borderStartStartRadius"],
+    ) => {
+      const v =
+        typeof value === "number" || isDimension(value)
+          ? `calc(${typeof value === "number" ? `${value}px` : value} * var(--radius))`
+          : value;
+      return {
+        borderStartStartRadius: v,
+      };
+    },
+    borderStartEndRadius: (value: CSSProperties["borderStartEndRadius"]) => {
+      const v =
+        typeof value === "number" || isDimension(value)
+          ? `calc(${typeof value === "number" ? `${value}px` : value} * var(--radius))`
+          : value;
+      return {
+        borderStartEndRadius: v,
+      };
+    },
+    borderEndStartRadius: (value: CSSProperties["borderEndStartRadius"]) => {
+      const v =
+        typeof value === "number" || isDimension(value)
+          ? `calc(${typeof value === "number" ? `${value}px` : value} * var(--radius))`
+          : value;
+      return {
+        borderEndStartRadius: v,
+      };
+    },
+    borderEndEndRadius: (value: CSSProperties["borderEndEndRadius"]) => {
+      const v =
+        typeof value === "number" || isDimension(value)
+          ? `calc(${typeof value === "number" ? `${value}px` : value} * var(--radius))`
+          : value;
+      return {
+        borderEndEndRadius: v,
+      };
+    },
     borderStyle: true,
     borderWidth: true,
     boxShadow: (value: CSSProperties["boxShadow"]) =>
