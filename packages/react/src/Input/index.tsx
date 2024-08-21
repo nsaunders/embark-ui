@@ -72,6 +72,10 @@ const InputGroupItem = polyForwardRef<
       large: "groupClassC",
       xlarge: "groupClassD",
       darkDisabled: { and: ["dark", "disabled"] },
+      hover: { and: ["hover", "classA"] },
+      active: { and: ["active", "classA"] },
+      darkHover: { and: ["dark", "hover", "classA"] },
+      darkActive: { and: ["dark", "active", "classA"] },
     }}
     as={as}
     display="flex"
@@ -88,12 +92,18 @@ const InputGroupItem = polyForwardRef<
     xlarge:paddingInline={20}
     outlineWidth={0}
     disabled:cursor="not-allowed"
-    color={gray(20)}
+    color={gray(25)}
+    hover:color={gray(35)}
+    active:color={gray(15)}
     disabled:color={gray(67.5)}
-    dark:color={gray(90)}
+    dark:color={gray(85)}
+    darkHover:color={gray(90)}
+    darkActive:color={gray(80)}
     darkDisabled:color={gray(40)}
     disabled:textShadow="1px 1px #fff"
     darkDisabled:textShadow={`1px 1px ${gray(55)}`}
+    transitionProperty="color"
+    transitionDuration="150ms"
     {...props}
     ref={ref}
   />
@@ -142,6 +152,7 @@ export const InputAddon = polyForwardRef<
     as={(props: ComponentPropsWithoutRef<typeof Box>) => (
       <Box
         as={as}
+        className="a"
         borderRadius="inherit"
         firstChild:borderStartEndRadius={0}
         firstChild:borderEndEndRadius={0}
