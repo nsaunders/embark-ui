@@ -31,7 +31,7 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
       ].join(" ")}
       as="div"
       display="flex"
-      alignItems="center"
+      alignItems="stretch"
       ref={ref}
       backgroundColor={gray(90)}
       dark:backgroundColor={gray(20)}
@@ -79,6 +79,7 @@ const InputGroupItem = polyForwardRef<
     }}
     as={as}
     display="flex"
+    alignItems="center"
     placeholderColor={gray(55)}
     placeholderTextShadow="none"
     borderWidth={0}

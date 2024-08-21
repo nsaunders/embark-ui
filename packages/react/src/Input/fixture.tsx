@@ -85,7 +85,7 @@ export default {
       <InputGroup>
         <InputCore defaultValue="hello" />
         <InputAddon as="button">
-          <Eye size="1lh" />
+          <Eye size="1em" />
         </InputAddon>
       </InputGroup>
     );

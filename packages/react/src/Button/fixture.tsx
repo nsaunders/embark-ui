@@ -84,7 +84,7 @@ export default {
 
     return (
       <Button size={size} variant={variant} className={elementStateClasses}>
-        {leadingIcon ? <LifeBuoy size="1lh" /> : null}
+        {leadingIcon ? <LifeBuoy size="1em" /> : null}
         <TextWrap>
           {text}
           {wrap ? (
@@ -96,7 +96,7 @@ export default {
             " "
           )}
         </TextWrap>
-        {trailingIcon ? <LifeBuoy size="1lh" /> : null}
+        {trailingIcon ? <LifeBuoy size="1em" /> : null}
       </Button>
     );
   },
