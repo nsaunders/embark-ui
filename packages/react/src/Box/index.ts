@@ -25,6 +25,11 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&.\\:focus-visible",
   "&:hover",
   "&.\\:hover",
+  "&:has(.item:disabled)",
+  '&:has(.item[aria-disabled="true"])',
+  "&:has(.item.\\:disabled)",
+  '&:has(.item:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
+  '&:has(.item.\\:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
   "&.a",
   "&.b",
   "&.c",
@@ -32,6 +37,10 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&.e",
   "&.f",
   "&.g",
+  ".group.a &",
+  ".group.b &",
+  ".group.c &",
+  ".group.d &",
 ]);
 
 export function StyleSheet() {
@@ -189,6 +198,19 @@ export const Box = createComponent({
             or: ["&:disabled", "&.\\:disabled", '&[aria-disabled="true"]'],
           },
         },
+      ],
+    },
+    itemDisabled: {
+      or: [
+        "&:has(.item:disabled)",
+        "&:has(.item.\\:disabled)",
+        '&:has(.item[aria-disabled="true"])',
+      ],
+    },
+    itemFocusVisible: {
+      or: [
+        '&:has(.item:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
+        '&:has(.item.\\:focus-visible:not(:disabled,.\\:disabled,[aria-disabled="true"]))',
       ],
     },
     hover: {
