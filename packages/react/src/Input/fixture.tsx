@@ -1,4 +1,5 @@
-import { Eye } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 
 import Box from "@/Box/index.js";
@@ -80,14 +81,44 @@ export default {
       </Box>
     );
   },
-  Addon() {
+  Addons() {
+    const [passwordVisible, setPasswordVisible] = useState(false);
     return (
-      <InputGroup>
-        <InputCore defaultValue="hello" />
-        <InputAddon as="button">
-          <Eye size="1em" />
-        </InputAddon>
-      </InputGroup>
+      <>
+        <InputGroup>
+          <InputCore
+            type={passwordVisible ? "text" : "password"}
+            defaultValue="password"
+          />
+          <InputAddon
+            as="button"
+            onClick={() => {
+              setPasswordVisible(x => !x);
+            }}>
+            {passwordVisible ? <EyeOff size="1em" /> : <Eye size="1em" />}
+          </InputAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputCore type="number" defaultValue="123" width={100} />
+          <InputAddon>kg</InputAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputAddon>$</InputAddon>
+          <InputCore type="number" defaultValue="123" width={100} />
+        </InputGroup>
+      </>
+    );
+  },
+  Select() {
+    return (
+      <Input as="select">
+        <optgroup label="Option 1">
+          <option>Option 1a</option>
+          <option>Option 1b</option>
+        </optgroup>
+        <option>Option 2</option>
+        <option>Option 3</option>
+      </Input>
     );
   },
 };

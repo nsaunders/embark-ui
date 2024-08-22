@@ -72,10 +72,10 @@ const InputGroupItem = polyForwardRef<
       large: "groupClassC",
       xlarge: "groupClassD",
       darkDisabled: { and: ["dark", "disabled"] },
-      hover: { and: ["hover", "classA"] },
-      active: { and: ["active", "classA"] },
-      darkHover: { and: ["dark", "hover", "classA"] },
-      darkActive: { and: ["dark", "active", "classA"] },
+      hover: { and: ["hover", "classA", "clickable"] },
+      active: { and: ["active", "classA", "clickable"] },
+      darkHover: { and: ["dark", "hover", "classA", "clickable"] },
+      darkActive: { and: ["dark", "active", "classA", "clickable"] },
     }}
     as={as}
     display="flex"
@@ -92,6 +92,7 @@ const InputGroupItem = polyForwardRef<
     xlarge:paddingBlock={10}
     xlarge:paddingInline={20}
     outlineWidth={0}
+    outlineStyle="solid"
     disabled:cursor="not-allowed"
     color={gray(25)}
     hover:color={gray(35)}
@@ -146,7 +147,7 @@ export interface InputAddonProps {}
 
 export const InputAddon = polyForwardRef<
   typeof defaultInputAddonAs,
-  InputCoreProps,
+  InputAddonProps,
   typeof defaultInputAddonAs | "a" | "button" | "div"
 >(({ as = defaultInputAddonAs, ...props }, ref) => (
   <InputGroupItem

@@ -21,12 +21,14 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "&:disabled",
   "&.\\:disabled",
   '&[aria-disabled="true"]',
+  "&:enabled",
   "&:focus-visible",
   "&.\\:focus-visible",
   "&:hover",
   "&.\\:hover",
   "&:first-child",
   "&:last-child",
+  "&:is(a)",
   "&.a",
   "&.b",
   "&.c",
@@ -185,6 +187,9 @@ export const Box = createComponent({
     classE: "&.e",
     classF: "&.f",
     classG: "&.g",
+    clickable: {
+      or: ["&:is(a)", "&:disabled", "&:enabled"],
+    },
     dark: {
       or: [
         {
