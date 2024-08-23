@@ -29,7 +29,7 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
         "group",
         { small: "a", medium: "b", large: "c", xlarge: "d" }[size],
       ].join(" ")}
-      as="div"
+      position="relative"
       display="flex"
       alignItems="stretch"
       ref={ref}
@@ -71,11 +71,25 @@ const InputGroupItem = polyForwardRef<
       medium: "groupClassB",
       large: "groupClassC",
       xlarge: "groupClassD",
+      addon: "classA",
+      mediumAddon: { and: ["groupClassB", "classA"] },
+      largeAddon: { and: ["groupClassC", "classA"] },
+      xlargeAddon: { and: ["groupClassD", "classA"] },
       darkDisabled: { and: ["dark", "disabled"] },
       hover: { and: ["hover", "classA", "clickable"] },
       active: { and: ["active", "classA", "clickable"] },
       darkHover: { and: ["dark", "hover", "classA", "clickable"] },
       darkActive: { and: ["dark", "active", "classA", "clickable"] },
+      opener: "classC",
+      mediumOpener: { and: ["groupClassB", "classC"] },
+      largeOpener: { and: ["groupClassC", "classC"] },
+      xlargeOpener: { and: ["groupClassD", "classC"] },
+      coreAndGroupHasClassAFirstChild: {
+        and: ["classB", "groupHasClassAFirstChild"],
+      },
+      coreAndGroupHasClassALastChild: {
+        and: ["classB", "groupHasClassALastChild"],
+      },
     }}
     as={as}
     display="flex"
@@ -84,13 +98,19 @@ const InputGroupItem = polyForwardRef<
     placeholderTextShadow="none"
     borderWidth={0}
     paddingBlock={4}
-    paddingInline={10}
     medium:paddingBlock={8}
-    medium:paddingInline={14}
     large:paddingBlock={8}
-    large:paddingInline={16}
     xlarge:paddingBlock={10}
+    paddingInline={10}
+    opener:paddingInlineEnd="calc(0.375lh + 20px)"
+    medium:paddingInline={14}
+    mediumOpener:paddingInlineEnd="calc(0.375lh + 28px)"
+    large:paddingInline={16}
+    largeOpener:paddingInlineEnd="calc(0.375lh + 32px)"
     xlarge:paddingInline={20}
+    xlargeOpener:paddingInlineEnd="calc(0.375lh + 40px)"
+    coreAndGroupHasClassAFirstChild:paddingInlineStart={0}
+    coreAndGroupHasClassALastChild:paddingInlineEnd={0}
     outlineWidth={0}
     outlineStyle="solid"
     disabled:cursor="not-allowed"
@@ -115,7 +135,12 @@ InputGroupItem.displayName = "InputGroupItem";
 
 export const defaultInputCoreAs = "input";
 
+export const inputCoreAppearanceOptions = ["auto", "opener"] as const;
+export const defaultInputCoreAppearance: (typeof inputCoreAppearanceOptions)[number] =
+  "auto";
+
 export interface InputCoreProps {
+  appearance?: (typeof inputCoreAppearanceOptions)[number];
   className?: string;
 }
 
@@ -123,21 +148,61 @@ export const InputCore = polyForwardRef<
   typeof defaultInputCoreAs,
   InputCoreProps,
   typeof defaultInputCoreAs | "button" | "input" | "select"
->(({ as = defaultInputCoreAs, className, ...props }, ref) => (
-  <InputGroupItem
-    as={(props: ComponentPropsWithoutRef<typeof Box>) => (
-      <Box
-        as={as}
-        notFirstChild:paddingInlineStart={0}
-        notLastChild:paddingInlineEnd={0}
-        {...props}
-        ref={ref}
-      />
-    )}
-    className={[className, "item"].filter(x => x).join(" ")}
-    {...props}
-  />
-));
+>(
+  (
+    {
+      appearance = defaultInputCoreAppearance,
+      as = defaultInputCoreAs,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    const opener = as === "select" || appearance === "opener";
+    return (
+      <Box position="relative">
+        <InputGroupItem
+          as={({
+            className,
+            ...props
+          }: ComponentPropsWithoutRef<typeof Box>) => (
+            <Box
+              as={as}
+              className={[className, "b", opener && "c"]
+                .filter(x => x)
+                .join(" ")}
+              dark:colorScheme="dark"
+              appearance="none"
+              {...props}
+              ref={ref}
+            />
+          )}
+          className={[className, "item"].filter(x => x).join(" ")}
+          {...props}
+        />
+        {opener ? (
+          <Box
+            conditions={{
+              medium: "groupClassB",
+              large: "groupClassC",
+              xlarge: "groupClassD",
+            }}
+            as="svg"
+            viewBox="0 0 8 4"
+            position="absolute"
+            right={10}
+            medium:right={14}
+            large:right={16}
+            xlarge:right={20}
+            top="calc(50% - 0.09375lh)"
+            height="0.1875lh">
+            <path d="M0,0 l4,4 l4,-4" fill="currentColor" />
+          </Box>
+        ) : undefined}
+      </Box>
+    );
+  },
+);
 
 InputCore.displayName = "InputCore";
 
@@ -151,10 +216,10 @@ export const InputAddon = polyForwardRef<
   typeof defaultInputAddonAs | "a" | "button" | "div"
 >(({ as = defaultInputAddonAs, ...props }, ref) => (
   <InputGroupItem
-    as={(props: ComponentPropsWithoutRef<typeof Box>) => (
+    as={({ className, ...props }: ComponentPropsWithoutRef<typeof Box>) => (
       <Box
         as={as}
-        className="a"
+        className={[className, "a"].filter(x => x).join(" ")}
         borderRadius="inherit"
         firstChild:borderStartEndRadius={0}
         firstChild:borderEndEndRadius={0}

@@ -1,5 +1,4 @@
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
 import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 
 import Box from "@/Box/index.js";
@@ -7,6 +6,7 @@ import Button from "@/Button/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
 import Input, {
+  defaultInputSize,
   InputAddon,
   InputCore,
   InputGroup,
@@ -81,23 +81,9 @@ export default {
       </Box>
     );
   },
-  Addons() {
-    const [passwordVisible, setPasswordVisible] = useState(false);
+  "Basic Addons"() {
     return (
       <>
-        <InputGroup>
-          <InputCore
-            type={passwordVisible ? "text" : "password"}
-            defaultValue="password"
-          />
-          <InputAddon
-            as="button"
-            onClick={() => {
-              setPasswordVisible(x => !x);
-            }}>
-            {passwordVisible ? <EyeOff size="1em" /> : <Eye size="1em" />}
-          </InputAddon>
-        </InputGroup>
         <InputGroup>
           <InputCore type="number" defaultValue="123" width={100} />
           <InputAddon>kg</InputAddon>
@@ -109,9 +95,36 @@ export default {
       </>
     );
   },
-  Select() {
+  "Interactive Addon"() {
+    const elementStateClasses = useElementStateClasses();
+    const [passwordVisible, setPasswordVisible] = useFixtureInput(
+      controlLabel({ type: "demo", text: "Password visible" }),
+      false,
+    );
     return (
-      <Input as="select">
+      <InputGroup>
+        <InputCore
+          type={passwordVisible ? "text" : "password"}
+          defaultValue="password"
+        />
+        <InputAddon
+          as="button"
+          className={elementStateClasses}
+          onClick={() => {
+            setPasswordVisible(x => !x);
+          }}>
+          {passwordVisible ? <EyeOff size="1em" /> : <Eye size="1em" />}
+        </InputAddon>
+      </InputGroup>
+    );
+  },
+  Select() {
+    const [size] = useFixtureSelect(
+      controlLabel({ text: "Size", type: "prop" }),
+      { options: [...inputSizes], defaultValue: defaultInputSize },
+    );
+    return (
+      <Input as="select" size={size}>
         <optgroup label="Option 1">
           <option>Option 1a</option>
           <option>Option 1b</option>
@@ -120,5 +133,12 @@ export default {
         <option>Option 3</option>
       </Input>
     );
+  },
+  "Date Picker"() {
+    const [size] = useFixtureSelect(
+      controlLabel({ text: "Size", type: "prop" }),
+      { options: [...inputSizes], defaultValue: defaultInputSize },
+    );
+    return <Input type="date" size={size} />;
   },
 };

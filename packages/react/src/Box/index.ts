@@ -14,6 +14,8 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   "@container (min-width: 100cqh)",
   "&:has(svg:first-child)",
   "&:has(svg:last-child)",
+  ".group:has(.a:first-child) &",
+  ".group:has(.a:last-child) &",
   '[data-theme="auto"] &',
   '[data-theme="dark"] &',
   "&:active",
@@ -55,7 +57,9 @@ export function StyleSheet() {
     createElement(
       "style",
       undefined,
-      `::placeholder{color: var(--placeholder-color);text-shadow:var(--placeholder-text-shadow)}`,
+      [
+        "::placeholder{color: var(--placeholder-color);text-shadow:var(--placeholder-text-shadow)}",
+      ].join(""),
     ),
   );
 }
@@ -226,6 +230,8 @@ export const Box = createComponent({
         },
       ],
     },
+    groupHasClassAFirstChild: ".group:has(.a:first-child) &",
+    groupHasClassALastChild: ".group:has(.a:last-child) &",
     hasLeadingIcon: "&:has(svg:first-child)",
     hasTrailingIcon: "&:has(svg:last-child)",
     itemDisabled: {
@@ -249,6 +255,7 @@ export const Box = createComponent({
   styleProps: createStyleProps({
     alignItems: true,
     alignSelf: true,
+    appearance: true,
     aspectRatio: true,
     backgroundColor: (value: CSSProperties["backgroundColor"]) =>
       ({
@@ -329,6 +336,7 @@ export const Box = createComponent({
         color: value,
       };
     },
+    colorScheme: true,
     containerType: true,
     cursor: true,
     display: true,
@@ -407,11 +415,12 @@ export const Box = createComponent({
       x => `paddingBlock${x}`,
     ),
     paddingBottom: true,
-    paddingInline: createStartEndShorthand(
-      "paddingInline",
-      parseLengths,
-      x => `paddingInline${x}`,
-    ),
+    paddingInline: (value: CSSProperties["paddingInline"]) => {
+      return {
+        paddingInlineStart: value,
+        paddingInlineEnd: value,
+      };
+    },
     paddingInlineEnd: true,
     paddingInlineStart: true,
     paddingLeft: true,
@@ -426,14 +435,17 @@ export const Box = createComponent({
       ({
         "--placeholder-text-shadow": value,
       }) as CSSProperties,
+    pointerEvents: true,
     position: true,
     stroke: true,
+    right: true,
     textAlign: true,
     textDecorationColor: true,
     textDecorationLine: true,
     textDecorationThickness: true,
     textShadow: true,
     textUnderlineOffset: true,
+    top: true,
     transform: true,
     transitionProperty: true,
     transitionDuration: true,
