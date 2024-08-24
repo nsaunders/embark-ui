@@ -81,11 +81,23 @@ const InputGroupItem = polyForwardRef<
       active: { and: ["active", "classA", "clickable"] },
       darkHover: { and: ["dark", "hover", "classA", "clickable"] },
       darkActive: { and: ["dark", "active", "classA", "clickable"] },
-      coreAndGroupHasClassAFirstChild: {
+      coreWithLeadingAddon: {
         and: ["classB", "groupHasClassAFirstChild"],
       },
-      coreAndGroupHasClassALastChild: {
+      coreWithTrailingAddon: {
         and: ["classB", "groupHasClassALastChild"],
+      },
+      openerWithTrailingAddon: {
+        and: ["classC", "groupHasClassALastChild"],
+      },
+      mediumOpenerWithTrailingAddon: {
+        and: ["groupClassB", "classC", "groupHasClassALastChild"],
+      },
+      largeOpenerWithTrailingAddon: {
+        and: ["groupClassC", "classC", "groupHasClassALastChild"],
+      },
+      xlargeOpenerWithTrailingAddon: {
+        and: ["groupClassD", "classC", "groupHasClassALastChild"],
       },
     }}
     as={as}
@@ -106,8 +118,12 @@ const InputGroupItem = polyForwardRef<
     largeOpener:paddingInlineEnd="calc(0.375lh + 32px)"
     xlarge:paddingInline={20}
     xlargeOpener:paddingInlineEnd="calc(0.375lh + 40px)"
-    coreAndGroupHasClassAFirstChild:paddingInlineStart={0}
-    coreAndGroupHasClassALastChild:paddingInlineEnd={0}
+    coreWithLeadingAddon:paddingInlineStart={0}
+    coreWithTrailingAddon:paddingInlineEnd={0}
+    openerWithTrailingAddon:paddingInlineEnd="calc(0.375lh + 10px)"
+    mediumOpenerWithTrailingAddon:paddingInlineEnd="calc(0.375lh + 14px)"
+    largeOpenerWithTrailingAddon:paddingInlineEnd="calc(0.375lh + 16px)"
+    xlargeOpenerWithTrailingAddon:paddingInlineEnd="calc(0.375lh + 20px)"
     outlineWidth={0}
     outlineStyle="solid"
     disabled:cursor="not-allowed"
@@ -184,6 +200,7 @@ export const InputCore = polyForwardRef<
               medium: "groupClassB",
               large: "groupClassC",
               xlarge: "groupClassD",
+              withTrailingAddon: "groupHasClassALastChild",
             }}
             as="svg"
             viewBox="0 0 8 4"
@@ -192,8 +209,10 @@ export const InputCore = polyForwardRef<
             medium:right={14}
             large:right={16}
             xlarge:right={20}
+            withTrailingAddon:right={0}
             top="calc(50% - 0.09375lh)"
-            height="0.1875lh">
+            height="0.1875lh"
+            pointerEvents="none">
             <path d="M0,0 l4,4 l4,-4" fill="currentColor" />
           </Box>
         ) : undefined}

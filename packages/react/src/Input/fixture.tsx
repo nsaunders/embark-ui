@@ -137,6 +137,23 @@ export default {
       </Input>
     );
   },
+  "Select with Addon"() {
+    const [size] = useFixtureSelect(
+      controlLabel({ text: "Size", type: "prop" }),
+      { options: [...inputSizes], defaultValue: defaultInputSize },
+    );
+    return (
+      <InputGroup size={size}>
+        <InputAddon>addon</InputAddon>
+        <InputCore as="select">
+          <option>Option 1</option>
+          <option>Option 2</option>
+          <option>Option 3</option>
+        </InputCore>
+        <InputAddon>addon</InputAddon>
+      </InputGroup>
+    );
+  },
   "Date Picker"() {
     const [size] = useFixtureSelect(
       controlLabel({ text: "Size", type: "prop" }),
