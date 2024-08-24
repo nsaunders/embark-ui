@@ -59,6 +59,7 @@ export function StyleSheet() {
       undefined,
       [
         "::placeholder{color: var(--placeholder-color);text-shadow:var(--placeholder-text-shadow)}",
+        "::-webkit-date-and-time-value { min-width: var(--webkit-date-and-time-value-min-width, 0); min-height: var(--webkit-date-and-time-value-min-height, 0); }",
       ].join(""),
     ),
   );
@@ -253,6 +254,14 @@ export const Box = createComponent({
     wide: "@container (min-width: 100cqh)",
   }),
   styleProps: createStyleProps({
+    WebkitDateAndTimeValueMinHeight: (value: CSSProperties["minHeight"]) =>
+      ({
+        "--webkit-date-and-time-value-min-height": value,
+      }) as CSSProperties,
+    WebkitDateAndTimeValueMinWidth: (value: CSSProperties["minWidth"]) =>
+      ({
+        "--webkit-date-and-time-value-min-width": value,
+      }) as CSSProperties,
     alignItems: true,
     alignSelf: true,
     appearance: true,

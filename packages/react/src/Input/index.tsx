@@ -185,6 +185,8 @@ export const InputCore = polyForwardRef<
               className={[className, "b", opener && "c"]
                 .filter(x => x)
                 .join(" ")}
+              WebkitDateAndTimeValueMinWidth="6ch"
+              WebkitDateAndTimeValueMinHeight="1lh"
               dark:colorScheme="dark"
               appearance="none"
               {...props}
