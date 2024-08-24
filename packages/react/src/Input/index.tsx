@@ -17,8 +17,6 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
   ({ children, size = defaultInputSize }, ref) => (
     <Box
       conditions={{
-        disabled: "itemDisabled",
-        darkDisabled: { and: ["dark", "itemDisabled"] },
         focusVisible: "itemFocusVisible",
         small: "classA",
         medium: "classB",
@@ -39,7 +37,6 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
       medium:fontSize={16}
       large:fontSize={20}
       xlarge:fontSize={24}
-      lineHeight={1.25}
       borderRadius={2}
       outlineWidth={0}
       outlineStyle="solid"
@@ -75,15 +72,15 @@ const InputGroupItem = polyForwardRef<
       mediumAddon: { and: ["groupClassB", "classA"] },
       largeAddon: { and: ["groupClassC", "classA"] },
       xlargeAddon: { and: ["groupClassD", "classA"] },
+      opener: "classC",
+      mediumOpener: { and: ["groupClassB", "classC"] },
+      largeOpener: { and: ["groupClassC", "classC"] },
+      xlargeOpener: { and: ["groupClassD", "classC"] },
       darkDisabled: { and: ["dark", "disabled"] },
       hover: { and: ["hover", "classA", "clickable"] },
       active: { and: ["active", "classA", "clickable"] },
       darkHover: { and: ["dark", "hover", "classA", "clickable"] },
       darkActive: { and: ["dark", "active", "classA", "clickable"] },
-      opener: "classC",
-      mediumOpener: { and: ["groupClassB", "classC"] },
-      largeOpener: { and: ["groupClassC", "classC"] },
-      xlargeOpener: { and: ["groupClassD", "classC"] },
       coreAndGroupHasClassAFirstChild: {
         and: ["classB", "groupHasClassAFirstChild"],
       },
@@ -126,6 +123,7 @@ const InputGroupItem = polyForwardRef<
     darkDisabled:textShadow={`1px 1px ${gray(55)}`}
     transitionProperty="color"
     transitionDuration="150ms"
+    lineHeight={1.25}
     {...props}
     ref={ref}
   />

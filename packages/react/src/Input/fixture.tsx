@@ -68,10 +68,13 @@ export default {
   },
   "Next to Button"() {
     const elementStateClasses = useElementStateClasses();
-    const [size] = useFixtureSelect("Size", {
-      options: [...inputSizes],
-      defaultValue: "medium",
-    });
+    const [size] = useFixtureSelect(
+      controlLabel({ type: "prop", text: "Size" }),
+      {
+        options: [...inputSizes],
+        defaultValue: "medium",
+      },
+    );
     return (
       <Box display="flex" alignItems="center" gap={8}>
         <Input size={size} className={elementStateClasses} />
