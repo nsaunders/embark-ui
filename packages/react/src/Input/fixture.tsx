@@ -10,6 +10,7 @@ import Input, {
   InputAddon,
   InputCore,
   InputGroup,
+  InputOption,
   inputSizes,
 } from "./index.js";
 
@@ -128,12 +129,12 @@ export default {
     );
     return (
       <Input as="select" size={size}>
-        <optgroup label="Option 1">
-          <option>Option 1a</option>
-          <option>Option 1b</option>
-        </optgroup>
-        <option>Option 2</option>
-        <option>Option 3</option>
+        <InputOption as="optgroup" label="Option 1">
+          <InputOption>Option 1a</InputOption>
+          <InputOption>Option 1b</InputOption>
+        </InputOption>
+        <InputOption>Option 2</InputOption>
+        <InputOption>Option 3</InputOption>
       </Input>
     );
   },
@@ -146,9 +147,9 @@ export default {
       <InputGroup size={size}>
         <InputAddon>addon</InputAddon>
         <InputCore as="select">
-          <option>Option 1</option>
-          <option>Option 2</option>
-          <option>Option 3</option>
+          {[...Array(3).keys()].map(i => (
+            <InputOption key={i}>Option {i + 1}</InputOption>
+          ))}
         </InputCore>
         <InputAddon>addon</InputAddon>
       </InputGroup>

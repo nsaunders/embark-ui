@@ -172,7 +172,9 @@ export const InputCore = polyForwardRef<
     },
     ref,
   ) => {
-    const opener = as === "select" || appearance === "opener";
+    const opener =
+      (as === "select" && !("multiple" in props && props.multiple)) ||
+      appearance === "opener";
     return (
       <Box position="relative">
         <InputGroupItem
@@ -259,6 +261,22 @@ export const InputAddon = polyForwardRef<
 ));
 
 InputAddon.displayName = "InputAddon";
+
+export const inputOptionAsOptions = ["optgroup", "option"] as const;
+export const inputOptionAsDefault =
+  "option" as const satisfies (typeof inputOptionAsOptions)[number];
+
+export interface InputOptionProps {}
+
+export const InputOption = polyForwardRef<
+  typeof inputOptionAsDefault,
+  InputOptionProps,
+  (typeof inputOptionAsOptions)[number]
+>(({ as = inputOptionAsDefault, ...props }, ref) => (
+  <Box as={as} color="#000" {...props} ref={ref} />
+));
+
+InputOption.displayName = "InputOption";
 
 export interface InputProps {
   size?: (typeof inputSizes)[number];
