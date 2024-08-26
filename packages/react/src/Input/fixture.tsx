@@ -18,12 +18,12 @@ import Input, {
 function inputTypes(
   ...types: ComponentPropsWithoutRef<"input">["type"][]
 ): Record<
-  `"${Exclude<ComponentPropsWithoutRef<"input">["type"], undefined>}" type`,
+  `Type "${Exclude<ComponentPropsWithoutRef<"input">["type"], undefined>}"`,
   () => JSX.Element
 > {
   return Object.fromEntries(
     types.map(type => [
-      `"${type}" type`,
+      `Type "${type}"`,
       () => {
         const [scale] = useScale();
         const elementStateClasses = useElementStateClasses();
