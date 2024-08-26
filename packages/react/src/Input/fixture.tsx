@@ -14,21 +14,22 @@ import Input, {
   inputScaleOptions,
 } from "./index.js";
 
-function useElementStateClasses() {
+function useElementStateClasses(prefix: string = "") {
+  const labelText = (x: string) => `${prefix}${prefix ? " " : ""}${x}`;
   const [hover] = useFixtureInput(
-    controlLabel({ type: "demo", text: "Hover" }),
+    controlLabel({ type: "demo", text: labelText("Hover") }),
     false,
   );
   const [focusVisible] = useFixtureInput(
-    controlLabel({ type: "demo", text: "Focus" }),
+    controlLabel({ type: "demo", text: labelText("Focus") }),
     false,
   );
   const [active] = useFixtureInput(
-    controlLabel({ type: "demo", text: "Active" }),
+    controlLabel({ type: "demo", text: labelText("Active") }),
     false,
   );
   const [disabled] = useFixtureInput(
-    controlLabel({ type: "demo", text: "Disabled" }),
+    controlLabel({ type: "demo", text: labelText("Disabled") }),
     false,
   );
   return [
@@ -48,17 +49,31 @@ function useScale() {
   });
 }
 
+function useValue(defaultValue: string = "") {
+  return useFixtureInput(
+    controlLabel({ text: "Value", type: "demo" }),
+    defaultValue,
+  );
+}
+
 export default {
   Default() {
-    const elementStateClasses = useElementStateClasses();
-    return (
-      <Input defaultValue="User input text" className={elementStateClasses} />
-    );
-  },
-  Placeholder() {
+    const [scale] = useScale();
     const elementStateClasses = useElementStateClasses();
     return (
       <Input
+        defaultValue="User input text"
+        scale={scale}
+        className={elementStateClasses}
+      />
+    );
+  },
+  Placeholder() {
+    const [scale] = useScale();
+    const elementStateClasses = useElementStateClasses();
+    return (
+      <Input
+        scale={scale}
         placeholder="Placeholder text"
         readOnly
         className={elementStateClasses}
@@ -66,55 +81,85 @@ export default {
     );
   },
   Scale() {
+    const elementStateClasses = useElementStateClasses();
+    const [value, setValue] = useValue();
     return (
       <>
         {inputScaleOptions.map(scale => (
-          <Input key={scale} scale={scale} placeholder={scale} />
+          <Input
+            key={scale}
+            scale={scale}
+            placeholder={scale}
+            className={elementStateClasses}
+            value={value}
+            onChange={e => {
+              setValue(e.target.value);
+            }}
+          />
         ))}
       </>
     );
   },
   "Next to Button"() {
-    const elementStateClasses = useElementStateClasses();
     const [scale] = useScale();
+    const inputElementStateClasses = useElementStateClasses("Input");
+    const buttonElementStateClasses = useElementStateClasses("Button");
     return (
       <Box display="flex" alignItems="center" gap={8}>
-        <Input scale={scale} className={elementStateClasses} />
-        <Button scale={scale} variant="subdued" className={elementStateClasses}>
+        <Input scale={scale} className={inputElementStateClasses} />
+        <Button
+          scale={scale}
+          variant="solid"
+          className={buttonElementStateClasses}>
           Submit
         </Button>
       </Box>
     );
   },
   "Basic Addons"() {
+    const [scale] = useScale();
+    const elementStateClasses = useElementStateClasses();
     return (
       <>
-        <InputGroup>
-          <InputCore type="number" defaultValue="123" width={100} />
+        <InputGroup scale={scale}>
+          <InputCore
+            type="number"
+            defaultValue="123"
+            width={100}
+            className={elementStateClasses}
+          />
           <InputAddon>kg</InputAddon>
         </InputGroup>
-        <InputGroup>
+        <InputGroup scale={scale}>
           <InputAddon>$</InputAddon>
-          <InputCore type="number" defaultValue="123" width={100} />
+          <InputCore
+            type="number"
+            defaultValue="123"
+            width={100}
+            className={elementStateClasses}
+          />
         </InputGroup>
       </>
     );
   },
   "Interactive Addon"() {
-    const elementStateClasses = useElementStateClasses();
+    const [scale] = useScale();
+    const coreElementStateClasses = useElementStateClasses("Core");
+    const addonElementStateClasses = useElementStateClasses("Addon");
     const [passwordVisible, setPasswordVisible] = useFixtureInput(
       controlLabel({ type: "demo", text: "Password visible" }),
       false,
     );
     return (
-      <InputGroup>
+      <InputGroup scale={scale}>
         <InputCore
+          className={coreElementStateClasses}
           type={passwordVisible ? "text" : "password"}
           defaultValue="password"
         />
         <InputAddon
           as="button"
-          className={elementStateClasses}
+          className={addonElementStateClasses}
           onClick={() => {
             setPasswordVisible(x => !x);
           }}>
@@ -125,12 +170,14 @@ export default {
   },
   "Date Picker"() {
     const [scale] = useScale();
-    return <Input type="date" scale={scale} />;
+    const elementStateClasses = useElementStateClasses();
+    return <Input type="date" scale={scale} className={elementStateClasses} />;
   },
   "Select dropdown"() {
     const [scale] = useScale();
+    const elementStateClasses = useElementStateClasses();
     return (
-      <Input as="select" scale={scale}>
+      <Input as="select" scale={scale} className={elementStateClasses}>
         <InputOption as="optgroup" label="Option 1">
           <InputOption>Option 1a</InputOption>
           <InputOption>Option 1b</InputOption>
@@ -142,10 +189,11 @@ export default {
   },
   "Select dropdown with addons"() {
     const [scale] = useScale();
+    const elementStateClasses = useElementStateClasses();
     return (
       <InputGroup scale={scale}>
         <InputAddon>addon</InputAddon>
-        <InputCore as="select">
+        <InputCore as="select" className={elementStateClasses}>
           {[...Array(3).keys()].map(i => (
             <InputOption key={i}>Option {i + 1}</InputOption>
           ))}
@@ -156,8 +204,9 @@ export default {
   },
   "Select listbox"() {
     const [scale] = useScale();
+    const elementStateClasses = useElementStateClasses();
     return (
-      <Input as="select" size={5} scale={scale}>
+      <Input as="select" size={5} scale={scale} className={elementStateClasses}>
         <InputOption as="optgroup" label="Option 1">
           <InputOption>Option 1a</InputOption>
           <InputOption>Option 1b</InputOption>
@@ -169,10 +218,11 @@ export default {
   },
   "Select listbox with addons"() {
     const [scale] = useScale();
+    const elementStateClasses = useElementStateClasses();
     return (
       <InputGroup scale={scale}>
         <InputAddon>addon</InputAddon>
-        <InputCore as="select" size={5}>
+        <InputCore as="select" size={5} className={elementStateClasses}>
           {[...Array(5).keys()].map(i => (
             <InputOption key={i}>Option {i + 1}</InputOption>
           ))}

@@ -226,7 +226,17 @@ export const InputCore = polyForwardRef<
             top="calc(50% - 0.09375lh)"
             height="0.1875lh"
             pointerEvents="none">
-            <path d="M0,0 l4,4 l4,-4" fill="currentColor" />
+            <Box
+              conditions={{
+                disabled: "groupHasItemDisabled",
+                darkDisabled: { and: ["dark", "groupHasItemDisabled"] },
+              }}
+              as="path"
+              d="M0,0 l4,4 l4,-4"
+              fill="currentColor"
+              disabled:fill={gray(67.5)}
+              darkDisabled:fill={gray(40)}
+            />
           </Box>
         ) : undefined}
       </Box>

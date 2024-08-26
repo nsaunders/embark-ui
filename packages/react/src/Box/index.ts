@@ -18,6 +18,9 @@ const { StyleSheet: HooksStyleSheet, hooks } = createHooks([
   ".group:has(.a:last-child) &",
   ".group[size] &",
   ".group[multiple] &",
+  ".group:has(.item:disabled) &",
+  '.group:has(.item[aria-disabled="true"]) &',
+  ".group:has(.item.\\:disabled) &",
   '[data-theme="auto"] &',
   '[data-theme="dark"] &',
   "&:active",
@@ -237,6 +240,13 @@ export const Box = createComponent({
     },
     groupHasClassAFirstChild: ".group:has(.a:first-child) &",
     groupHasClassALastChild: ".group:has(.a:last-child) &",
+    groupHasItemDisabled: {
+      or: [
+        ".group:has(.item:disabled) &",
+        ".group:has(.item.\\:disabled) &",
+        '.group:has(.item[aria-disabled="true"]) &',
+      ],
+    },
     hasLeadingIcon: "&:has(svg:first-child)",
     hasTrailingIcon: "&:has(svg:last-child)",
     itemDisabled: {
@@ -353,6 +363,7 @@ export const Box = createComponent({
     containerType: true,
     cursor: true,
     display: true,
+    fill: true,
     flexBasis: true,
     flexDirection: true,
     flexGrow: true,
