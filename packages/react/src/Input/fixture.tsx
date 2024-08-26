@@ -6,12 +6,12 @@ import Button from "@/Button/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
 import Input, {
-  defaultInputSize,
   InputAddon,
   InputCore,
   InputGroup,
   InputOption,
-  inputSizes,
+  inputScaleDefault,
+  inputScaleOptions,
 } from "./index.js";
 
 function useElementStateClasses() {
@@ -41,6 +41,13 @@ function useElementStateClasses() {
     .join(" ");
 }
 
+function useScale() {
+  return useFixtureSelect(controlLabel({ text: "Scale", type: "prop" }), {
+    options: [...inputScaleOptions],
+    defaultValue: inputScaleDefault,
+  });
+}
+
 export default {
   Default() {
     const elementStateClasses = useElementStateClasses();
@@ -58,28 +65,22 @@ export default {
       />
     );
   },
-  Sizes() {
+  Scale() {
     return (
       <>
-        {inputSizes.map(size => (
-          <Input key={size} size={size} placeholder={size} />
+        {inputScaleOptions.map(scale => (
+          <Input key={scale} scale={scale} placeholder={scale} />
         ))}
       </>
     );
   },
   "Next to Button"() {
     const elementStateClasses = useElementStateClasses();
-    const [size] = useFixtureSelect(
-      controlLabel({ type: "prop", text: "Size" }),
-      {
-        options: [...inputSizes],
-        defaultValue: "medium",
-      },
-    );
+    const [scale] = useScale();
     return (
       <Box display="flex" alignItems="center" gap={8}>
-        <Input size={size} className={elementStateClasses} />
-        <Button size={size} variant="subdued" className={elementStateClasses}>
+        <Input scale={scale} className={elementStateClasses} />
+        <Button scale={scale} variant="subdued" className={elementStateClasses}>
           Submit
         </Button>
       </Box>
@@ -122,13 +123,14 @@ export default {
       </InputGroup>
     );
   },
-  Select() {
-    const [size] = useFixtureSelect(
-      controlLabel({ text: "Size", type: "prop" }),
-      { options: [...inputSizes], defaultValue: defaultInputSize },
-    );
+  "Date Picker"() {
+    const [scale] = useScale();
+    return <Input type="date" scale={scale} />;
+  },
+  "Select dropdown"() {
+    const [scale] = useScale();
     return (
-      <Input as="select" size={size}>
+      <Input as="select" scale={scale}>
         <InputOption as="optgroup" label="Option 1">
           <InputOption>Option 1a</InputOption>
           <InputOption>Option 1b</InputOption>
@@ -138,13 +140,10 @@ export default {
       </Input>
     );
   },
-  "Select with Addon"() {
-    const [size] = useFixtureSelect(
-      controlLabel({ text: "Size", type: "prop" }),
-      { options: [...inputSizes], defaultValue: defaultInputSize },
-    );
+  "Select dropdown with addons"() {
+    const [scale] = useScale();
     return (
-      <InputGroup size={size}>
+      <InputGroup scale={scale}>
         <InputAddon>addon</InputAddon>
         <InputCore as="select">
           {[...Array(3).keys()].map(i => (
@@ -155,11 +154,31 @@ export default {
       </InputGroup>
     );
   },
-  "Date Picker"() {
-    const [size] = useFixtureSelect(
-      controlLabel({ text: "Size", type: "prop" }),
-      { options: [...inputSizes], defaultValue: defaultInputSize },
+  "Select listbox"() {
+    const [scale] = useScale();
+    return (
+      <Input as="select" size={5} scale={scale}>
+        <InputOption as="optgroup" label="Option 1">
+          <InputOption>Option 1a</InputOption>
+          <InputOption>Option 1b</InputOption>
+        </InputOption>
+        <InputOption>Option 2</InputOption>
+        <InputOption>Option 3</InputOption>
+      </Input>
     );
-    return <Input type="date" size={size} />;
+  },
+  "Select listbox with addons"() {
+    const [scale] = useScale();
+    return (
+      <InputGroup scale={scale}>
+        <InputAddon>addon</InputAddon>
+        <InputCore as="select" size={5}>
+          {[...Array(5).keys()].map(i => (
+            <InputOption key={i}>Option {i + 1}</InputOption>
+          ))}
+        </InputCore>
+        <InputAddon>addon</InputAddon>
+      </InputGroup>
+    );
   },
 };

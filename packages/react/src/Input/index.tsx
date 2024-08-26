@@ -5,16 +5,22 @@ import type { PolyRefFunction } from "react-polymorphed";
 import { Box } from "@/Box/index.js";
 import { accent, gray } from "@/colors/index.js";
 
-export const inputSizes = ["small", "medium", "large", "xlarge"] as const;
-export const defaultInputSize: (typeof inputSizes)[number] = "medium";
+export const inputScaleOptions = [
+  "small",
+  "medium",
+  "large",
+  "xlarge",
+] as const;
+export const inputScaleDefault =
+  "medium" satisfies (typeof inputScaleOptions)[number];
 
 export interface InputGroupProps {
   children?: ReactNode;
-  size?: (typeof inputSizes)[number];
+  scale?: (typeof inputScaleOptions)[number];
 }
 
 export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
-  ({ children, size = defaultInputSize }, ref) => (
+  ({ children, scale = inputScaleDefault }, ref) => (
     <Box
       conditions={{
         focusVisible: "itemFocusVisible",
@@ -25,8 +31,9 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
       }}
       className={[
         "group",
-        { small: "a", medium: "b", large: "c", xlarge: "d" }[size],
+        { small: "a", medium: "b", large: "c", xlarge: "d" }[scale],
       ].join(" ")}
+      overflow="hidden"
       position="relative"
       display="flex"
       alignItems="stretch"
@@ -52,16 +59,16 @@ InputGroup.displayName = "InputGroup";
 
 const polyForwardRef = forwardRef as PolyRefFunction;
 
-const defaultInputGroupItemAs = "div";
+const inputGroupItemAsDefault = "div";
 
 interface InputGroupItemProps {
   className?: string;
 }
 
 const InputGroupItem = polyForwardRef<
-  typeof defaultInputGroupItemAs,
+  typeof inputGroupItemAsDefault,
   InputGroupItemProps
->(({ as = defaultInputGroupItemAs, ...props }, ref) => (
+>(({ as = inputGroupItemAsDefault, ...props }, ref) => (
   <Box
     conditions={{
       small: "groupClassA",
@@ -147,11 +154,13 @@ const InputGroupItem = polyForwardRef<
 
 InputGroupItem.displayName = "InputGroupItem";
 
-export const defaultInputCoreAs = "input";
-
 export const inputCoreAppearanceOptions = ["auto", "opener"] as const;
-export const defaultInputCoreAppearance: (typeof inputCoreAppearanceOptions)[number] =
-  "auto";
+export const inputCoreAppearanceDefault =
+  "auto" satisfies (typeof inputCoreAppearanceOptions)[number];
+
+export const inputCoreAsOptions = ["button", "input", "select"] as const;
+export const inputCoreAsDefault =
+  "input" satisfies (typeof inputCoreAsOptions)[number];
 
 export interface InputCoreProps {
   appearance?: (typeof inputCoreAppearanceOptions)[number];
@@ -159,21 +168,22 @@ export interface InputCoreProps {
 }
 
 export const InputCore = polyForwardRef<
-  typeof defaultInputCoreAs,
+  typeof inputCoreAsDefault,
   InputCoreProps,
-  typeof defaultInputCoreAs | "button" | "input" | "select"
+  (typeof inputCoreAsOptions)[number]
 >(
   (
     {
-      appearance = defaultInputCoreAppearance,
-      as = defaultInputCoreAs,
-      className,
+      appearance = inputCoreAppearanceDefault,
+      as = inputCoreAsDefault,
       ...props
     },
     ref,
   ) => {
     const opener =
-      (as === "select" && !("multiple" in props && props.multiple)) ||
+      (as === "select" &&
+        !("multiple" in props && props.multiple) &&
+        !("size" in props && props.size)) ||
       appearance === "opener";
     return (
       <Box position="relative">
@@ -184,7 +194,7 @@ export const InputCore = polyForwardRef<
           }: ComponentPropsWithoutRef<typeof Box>) => (
             <Box
               as={as}
-              className={[className, "b", opener && "c"]
+              className={[className, "item", "group", "b", opener && "c"]
                 .filter(x => x)
                 .join(" ")}
               WebkitDateAndTimeValueMinWidth="6ch"
@@ -195,7 +205,6 @@ export const InputCore = polyForwardRef<
               ref={ref}
             />
           )}
-          className={[className, "item"].filter(x => x).join(" ")}
           {...props}
         />
         {opener ? (
@@ -264,7 +273,7 @@ InputAddon.displayName = "InputAddon";
 
 export const inputOptionAsOptions = ["optgroup", "option"] as const;
 export const inputOptionAsDefault =
-  "option" as const satisfies (typeof inputOptionAsOptions)[number];
+  "option" satisfies (typeof inputOptionAsOptions)[number];
 
 export interface InputOptionProps {}
 
@@ -273,21 +282,29 @@ export const InputOption = polyForwardRef<
   InputOptionProps,
   (typeof inputOptionAsOptions)[number]
 >(({ as = inputOptionAsDefault, ...props }, ref) => (
-  <Box as={as} color="#000" {...props} ref={ref} />
+  <Box
+    conditions={{
+      notListbox: { not: { or: ["groupAttrMultiple", "groupAttrSize"] } },
+    }}
+    as={as}
+    notListbox:color="#000"
+    {...props}
+    ref={ref}
+  />
 ));
 
 InputOption.displayName = "InputOption";
 
 export interface InputProps {
-  size?: (typeof inputSizes)[number];
+  scale?: (typeof inputScaleOptions)[number];
 }
 
 const Input = polyForwardRef<
-  typeof defaultInputCoreAs,
+  typeof inputCoreAsDefault,
   InputProps,
-  typeof defaultInputCoreAs | "button" | "input" | "select"
->(({ size = defaultInputSize, ...props }, ref) => (
-  <InputGroup size={size}>
+  typeof inputCoreAsDefault | "button" | "input" | "select"
+>(({ scale = inputScaleDefault, ...props }, ref) => (
+  <InputGroup scale={scale}>
     <InputCore {...props} ref={ref} />
   </InputGroup>
 ));

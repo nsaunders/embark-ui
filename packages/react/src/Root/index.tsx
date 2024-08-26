@@ -6,34 +6,38 @@ import { accents, colorValues, grays } from "@/colors/index.js";
 
 const polyForwardRef = forwardRef as PolyRefFunction;
 
-export const rootAccents = accents;
-export const defaultRootAccent: (typeof rootAccents)[number] = "blue";
+export const rootAccentOptions = accents;
+export const rootAccentDefault =
+  "blue" satisfies (typeof rootAccentOptions)[number];
 
-export const rootGrays = grays;
-export const defaultRootGray: (typeof rootGrays)[number] = "slate";
+export const rootGrayOptions = grays;
+export const rootGrayDefault =
+  "slate" satisfies (typeof rootGrayOptions)[number];
 
-export const rootRadii = ["none", "medium", "full"] as const;
-export const defaultRootRadius: (typeof rootRadii)[number] = "medium";
+export const rootRadiusOptions = ["none", "medium"] as const;
+export const rootRadiusDefault =
+  "medium" satisfies (typeof rootRadiusOptions)[number];
 
 interface RootProps {
-  accent?: (typeof accents)[number];
-  gray?: (typeof grays)[number];
-  radius?: (typeof rootRadii)[number];
+  accent?: (typeof rootAccentOptions)[number];
+  gray?: (typeof rootGrayOptions)[number];
+  radius?: (typeof rootRadiusOptions)[number];
   style?: CSSProperties;
 }
 
-const defaultRootElement = "div";
+export const rootAsOptions = ["body", "div"] as const;
+export const rootAsDefault = "div" satisfies (typeof rootAsOptions)[number];
 
 const Root = polyForwardRef<
-  typeof defaultRootElement,
+  typeof rootAsDefault,
   RootProps,
-  "body" | "div"
+  (typeof rootAsOptions)[number]
 >(function (
   {
-    as: Component = defaultRootElement,
-    accent = defaultRootAccent,
-    gray = defaultRootGray,
-    radius = defaultRootRadius,
+    as: Component = rootAsDefault,
+    accent = rootAccentDefault,
+    gray = rootGrayDefault,
+    radius = rootRadiusDefault,
     style,
     ...restProps
   },
@@ -53,7 +57,7 @@ const Root = polyForwardRef<
           ),
           "--accent": `var(--${accent})`,
           "--gray": `var(--${gray})`,
-          "--radius": { none: 0, medium: 4, full: 999 }[radius],
+          "--radius": { none: 0, medium: 4 }[radius],
         } as CSSProperties
       }
       ref={ref}

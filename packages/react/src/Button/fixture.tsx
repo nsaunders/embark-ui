@@ -6,10 +6,10 @@ import Box from "@/Box/index.js";
 import { controlLabel } from "@/cosmos.utils.js";
 
 import Button, {
-  buttonSizes,
-  buttonVariants,
-  defaultButtonSize,
-  defaultButtonVariant,
+  buttonScaleDefault,
+  buttonScaleOptions,
+  buttonVariantDefault,
+  buttonVariantOptions,
 } from "./index.js";
 
 function useElementStateClasses() {
@@ -41,18 +41,18 @@ function useElementStateClasses() {
 
 function useVariant() {
   return useFixtureSelect(controlLabel({ type: "prop", text: "Variant" }), {
-    options: [...buttonVariants],
-    defaultValue: defaultButtonVariant,
+    options: [...buttonVariantOptions],
+    defaultValue: buttonVariantDefault,
   })[0];
 }
 
 export default {
   Default() {
-    const [size] = useFixtureSelect(
-      controlLabel({ type: "prop", text: "Size" }),
+    const [scale] = useFixtureSelect(
+      controlLabel({ type: "prop", text: "Scale" }),
       {
-        options: [...buttonSizes],
-        defaultValue: defaultButtonSize,
+        options: [...buttonScaleOptions],
+        defaultValue: buttonScaleDefault,
       },
     );
 
@@ -83,7 +83,7 @@ export default {
     );
 
     return (
-      <Button size={size} variant={variant} className={elementStateClasses}>
+      <Button scale={scale} variant={variant} className={elementStateClasses}>
         {leadingIcon ? <LifeBuoy size="1em" /> : null}
         <TextWrap>
           {text}
@@ -100,13 +100,13 @@ export default {
       </Button>
     );
   },
-  Sizes() {
+  Scale() {
     const variant = useVariant();
     return (
       <Box display="flex" gap={8} alignItems="center">
-        {buttonSizes.map(size => (
-          <Button key={size} size={size} variant={variant}>
-            {size}
+        {buttonScaleOptions.map(scale => (
+          <Button key={scale} scale={scale} variant={variant}>
+            {scale}
           </Button>
         ))}
       </Box>
@@ -116,7 +116,7 @@ export default {
     const elementStateClasses = useElementStateClasses();
     return (
       <Box display="flex" gap={8} alignItems="center">
-        {buttonVariants.map(variant => (
+        {buttonVariantOptions.map(variant => (
           <Button
             key={variant}
             variant={variant}

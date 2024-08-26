@@ -7,31 +7,40 @@ import { accent, gray } from "@/colors/index.js";
 
 const forwardRef = React.forwardRef as PolyRefFunction;
 
-export const defaultButtonAs = "button";
+export const buttonAsOptions = ["button", "a"] as const;
+export const buttonAsDefault =
+  "button" satisfies (typeof buttonAsOptions)[number];
 
-export const buttonSizes = ["small", "medium", "large", "xlarge"] as const;
-export const defaultButtonSize: (typeof buttonSizes)[number] = "medium";
+export const buttonScaleOptions = [
+  "small",
+  "medium",
+  "large",
+  "xlarge",
+] as const;
+export const buttonScaleDefault =
+  "medium" satisfies (typeof buttonScaleOptions)[number];
 
-export const buttonVariants = ["solid", "subdued", "ghost"] as const;
-export const defaultButtonVariant: (typeof buttonVariants)[number] = "solid";
+export const buttonVariantOptions = ["solid", "subdued", "ghost"] as const;
+export const buttonVariantDefault =
+  "solid" satisfies (typeof buttonVariantOptions)[number];
 
 export interface ButtonProps {
   className?: string;
-  size?: (typeof buttonSizes)[number];
-  variant?: (typeof buttonVariants)[number];
+  scale?: (typeof buttonScaleOptions)[number];
+  variant?: (typeof buttonVariantOptions)[number];
 }
 
 const Button = forwardRef<
-  typeof defaultButtonAs,
+  typeof buttonAsDefault,
   ButtonProps,
-  typeof defaultButtonAs | ElementType<HTMLProps<HTMLElement>>
+  (typeof buttonAsOptions)[number] | ElementType<HTMLProps<HTMLElement>>
 >(
   (
     {
-      as = defaultButtonAs,
+      as = buttonAsDefault,
       className = "",
-      size = defaultButtonSize,
-      variant = defaultButtonVariant,
+      scale = buttonScaleDefault,
+      variant = buttonVariantDefault,
       ...restProps
     },
     ref,
@@ -40,7 +49,7 @@ const Button = forwardRef<
       as={as}
       className={[
         className,
-        { small: "a", medium: "b", large: "c", xlarge: "d" }[size],
+        { small: "a", medium: "b", large: "c", xlarge: "d" }[scale],
         { solid: "e", subdued: "f", ghost: "g" }[variant],
       ]
         .filter(x => x)

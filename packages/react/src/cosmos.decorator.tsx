@@ -11,7 +11,14 @@ import { z } from "zod";
 import Box, { StyleSheet } from "./Box/index.js";
 import * as colors from "./colors/index.js";
 import { controlLabel } from "./cosmos.utils.js";
-import Root, { defaultRootRadius, rootRadii } from "./Root/index.js";
+import Root, {
+  rootAccentDefault,
+  rootAccentOptions,
+  rootGrayDefault,
+  rootGrayOptions,
+  rootRadiusDefault,
+  rootRadiusOptions,
+} from "./Root/index.js";
 
 const fonts = ["Inter", "Montserrat", "Noto Sans", "Roboto Mono"] as const;
 
@@ -53,19 +60,19 @@ function usePersistentSetting<T extends string>(
 export default function Decorator({ children }: { children?: ReactNode }) {
   const [gray] = usePersistentSetting(
     "gray",
-    z.enum(colors.grays),
+    z.enum(rootGrayOptions),
     useFixtureSelect(controlLabel({ type: "global", text: "Gray" }), {
-      options: [...colors.grays],
-      defaultValue: "slate",
+      options: [...rootGrayOptions],
+      defaultValue: rootGrayDefault,
     }),
   );
 
   const [accent] = usePersistentSetting(
     "accent",
-    z.enum(colors.accents),
+    z.enum(rootAccentOptions),
     useFixtureSelect(controlLabel({ type: "global", text: "Accent" }), {
-      options: [...colors.accents],
-      defaultValue: "blue",
+      options: [...rootAccentOptions],
+      defaultValue: rootAccentDefault,
     }),
   );
 
@@ -82,10 +89,10 @@ export default function Decorator({ children }: { children?: ReactNode }) {
 
   const [radius] = usePersistentSetting(
     "radius",
-    z.enum(rootRadii),
+    z.enum(rootRadiusOptions),
     useFixtureSelect(controlLabel({ type: "global", text: "Radius" }), {
-      options: [...rootRadii],
-      defaultValue: defaultRootRadius,
+      options: [...rootRadiusOptions],
+      defaultValue: rootRadiusDefault,
     }),
   );
 
