@@ -1,4 +1,5 @@
 import { Eye, EyeOff } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 import { useFixtureInput, useFixtureSelect } from "react-cosmos/client.js";
 
 import Box from "@/Box/index.js";
@@ -13,6 +14,26 @@ import Input, {
   inputScaleDefault,
   inputScaleOptions,
 } from "./index.js";
+
+function inputTypes(
+  ...types: ComponentPropsWithoutRef<"input">["type"][]
+): Record<
+  `"${Exclude<ComponentPropsWithoutRef<"input">["type"], undefined>}" type`,
+  () => JSX.Element
+> {
+  return Object.fromEntries(
+    types.map(type => [
+      `"${type}" type`,
+      () => {
+        const [scale] = useScale();
+        const elementStateClasses = useElementStateClasses();
+        return (
+          <Input type={type} scale={scale} className={elementStateClasses} />
+        );
+      },
+    ]),
+  );
+}
 
 function useElementStateClasses(prefix: string = "") {
   const labelText = (x: string) => `${prefix}${prefix ? " " : ""}${x}`;
@@ -168,11 +189,6 @@ export default {
       </InputGroup>
     );
   },
-  "Date Picker"() {
-    const [scale] = useScale();
-    const elementStateClasses = useElementStateClasses();
-    return <Input type="date" scale={scale} className={elementStateClasses} />;
-  },
   "Select dropdown"() {
     const [scale] = useScale();
     const elementStateClasses = useElementStateClasses();
@@ -231,4 +247,18 @@ export default {
       </InputGroup>
     );
   },
+  ...inputTypes(
+    "date",
+    "time",
+    "datetime-local",
+    "week",
+    "month",
+    "url",
+    "email",
+    "tel",
+    "search",
+    "text",
+    "number",
+    "password",
+  ),
 };
