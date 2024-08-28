@@ -123,15 +123,16 @@ export default function Decorator({ children }: { children?: ReactNode }) {
       display="grid"
       containerType="size">
       <StyleSheet />
-      <Box
-        ref={setContainer}
-        display="grid"
-        gridTemplateColumns="1fr"
-        gridTemplateRows="repeat(2, 1fr)"
-        wide:gridTemplateColumns="repeat(2, 1fr)"
-        wide:gridTemplateRows="1fr">
+      <Box ref={setContainer} display="flex" flexWrap="wrap">
         {["light", "dark"].map(theme => (
-          <Box data-theme={theme} key={theme} display="contents">
+          <Box
+            data-theme={theme}
+            key={theme}
+            display="grid"
+            width="100dvw"
+            height="50dvh"
+            wide:width="50dvw"
+            wide:height="100dvh">
             <Box
               as={Root}
               overflow="auto"
