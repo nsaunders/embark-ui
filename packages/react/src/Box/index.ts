@@ -346,19 +346,7 @@ export const Box = createComponent({
       }) as CSSProperties,
     boxSizing: true,
     clip: true,
-    color: (value: CSSProperties["color"]) => {
-      if (value === "contrast") {
-        return {
-          "--y-threshold": 0.26,
-          "--y": "clamp(0, (var(--y-threshold) / y - 1) * infinity, 1)",
-          color:
-            "color(from var(--background-color) xyz-d65 var(--y) var(--y) var(--y))",
-        } as CSSProperties;
-      }
-      return {
-        color: value,
-      };
-    },
+    color: true,
     colorScheme: true,
     containerType: true,
     cursor: true,

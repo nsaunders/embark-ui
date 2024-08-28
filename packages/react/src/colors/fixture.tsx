@@ -19,7 +19,7 @@ export default function Palette() {
             <Box
               key={[accent, lightness].join("")}
               backgroundColor={colors[accent](lightness)}
-              color="contrast"
+              color={lightness <= 55 ? "#fff" : "#000"}
               display="grid"
               placeItems="center">
               {lightness}
