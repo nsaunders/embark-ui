@@ -417,7 +417,10 @@ export const Box = createComponent({
     outlineOffset: true,
     outlineStyle: true,
     outlineWidth: true,
-    overflow: true,
+    overflow: (value: CSSProperties["overflowX"]) => ({
+      overflowX: value,
+      overflowY: value,
+    }),
     overflowX: true,
     overflowY: true,
     padding: createTRBLShorthand("padding", parseLengths, x => `padding${x}`),
