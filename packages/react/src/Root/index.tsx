@@ -50,9 +50,9 @@ const Root = polyForwardRef<
         {
           ...style,
           ...Object.fromEntries(
-            Object.entries(colorValues).map(([name, [a, b]]) => [
+            Object.entries(colorValues).map(([name, value]) => [
               `--${name}`,
-              `${a} ${b}`,
+              value,
             ]),
           ),
           "--accent": `var(--${accent})`,

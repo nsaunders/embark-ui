@@ -1,26 +1,25 @@
 export const colorValues = {
-  red: [0.21, 0.135],
-  orange: [0.135, 0.21],
-  amber: [0.036, 0.247],
-  yellow: [-0.07, 0.24],
-  lime: [-0.104, 0.227],
-  green: [-0.189, 0.164],
-  emerald: [-0.24, 0.07],
-  teal: [-0.247, -0.036],
-  cyan: [-0.227, -0.104],
-  sky: [-0.135, -0.21],
-  blue: [-0.036, -0.247],
-  indigo: [0.036, -0.247],
-  violet: [0.07, -0.24],
-  purple: [0.135, -0.21],
-  fuchsia: [0.21, -0.135],
-  pink: [0.24, -0.07],
-  rose: [0.247, 0.036],
-
-  slate: [0.005, -0.01],
-  zinc: [0, 0.02],
-  neutral: [0, 0],
-  stone: [0, 0.02],
+  red: "#e72805",
+  orange: "#c14c20",
+  amber: "#af6805",
+  yellow: "#907e00",
+  lime: "#848500",
+  green: "#1a9d01",
+  emerald: "#09a44f",
+  teal: "#0ca5a1",
+  cyan: "#00a2c4",
+  sky: "#137fcf",
+  blue: "#4a6deb",
+  indigo: "#6c55fd",
+  violet: "#8557ff",
+  purple: "#a14cdf",
+  fuchsia: "#a04c9b",
+  pink: "#a04c9b",
+  rose: "#d02863",
+  slate: "#717076",
+  zinc: "#757165",
+  neutral: "#717171",
+  stone: "#757165",
 } as const;
 
 export const grays = [
@@ -48,7 +47,10 @@ export const accents = [
   "fuchsia",
   "pink",
   "rose",
-] as const satisfies Exclude<keyof typeof colorValues, keyof typeof grays>[];
+] as const satisfies Exclude<
+  keyof typeof colorValues,
+  (typeof grays)[number]
+>[];
 
 export const {
   accent,
@@ -81,7 +83,7 @@ export const {
       (_, p) =>
       (lightness: number, alpha: number = 1) => {
         const L = Math.min(Math.max(0, lightness), 100);
-        const base = `color-mix(in lab,oklab(55% var(--${String(p)})),#${L < 55 ? "000" : "fff"} ${Math.abs(50 - L) * 2}%)`;
+        const base = `color-mix(in lab,var(--${String(p)}),#${L < 55 ? "000" : "fff"} ${Math.abs(50 - L) * 2}%)`;
 
         const A = Math.min(Math.max(0, alpha), 1);
 
